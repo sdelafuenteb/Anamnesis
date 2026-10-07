@@ -1,0 +1,281 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Radar de Repetición Retail</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: cabecera con KPIs, barra de filtros, radar + panel lateral (competidores y detalle), tabla completa. Estilo Haulmer DS, modo TUU. */
+:root{
+  --haulmer-blue:#1E1EFF; --haulmer-blue-70:#5C5CFF; --haulmer-blue-40:#A3A3FF; --haulmer-blue-10:#E8E8FF;
+  --haulmer-black:#1A1A1A;
+  --font-display:'Rajdhani','Arial Narrow','Helvetica Neue',Arial,sans-serif;
+  --font-body:'DM Sans',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
+  --radius-pill:9999px; --radius-card:20px; --radius-btn:12px; --radius-sm:8px;
+  --bg:#FFFFFF; --bg-soft:#F5F5F7; --fg:#1A1A1A; --fg-muted:#6B7280; --line:#E5E5E7; --card:#FFFFFF;
+  --accent:#1E1EFF; --accent-soft:#E8E8FF; --cta:#1A1A1A; --cta-fg:#FFFFFF; --ring:#E5E5E7; --tip-bg:#1A1A1A; --tip-fg:#FFFFFF;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#0A0A0A;--bg-soft:#141416;--fg:#F5F5F7;--fg-muted:#9CA3AF;--line:#26262A;--card:#141416;--accent:#5C5CFF;--accent-soft:#1B1B4D;--cta:#FFFFFF;--cta-fg:#1A1A1A;--ring:#26262A;--tip-bg:#F5F5F7;--tip-fg:#1A1A1A;color-scheme:dark}
+}
+:root[data-theme="dark"]{--bg:#0A0A0A;--bg-soft:#141416;--fg:#F5F5F7;--fg-muted:#9CA3AF;--line:#26262A;--card:#141416;--accent:#5C5CFF;--accent-soft:#1B1B4D;--cta:#FFFFFF;--cta-fg:#1A1A1A;--ring:#26262A;--tip-bg:#F5F5F7;--tip-fg:#1A1A1A;color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 var(--font-body);-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--font-display);line-height:1.05;letter-spacing:-.01em;margin:0;text-wrap:balance}
+.wrap{max-width:1280px;margin:0 auto;padding-inline:24px;padding-block:48px 64px;display:grid;gap:32px}
+@media (max-width:600px){.wrap{padding-inline:16px;padding-block:32px 48px}}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border:1.5px solid var(--accent);border-radius:var(--radius-pill);font:500 13px var(--font-body);color:var(--accent)}
+.dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+h1{font-weight:700;font-size:clamp(2.5rem,6vw,4.5rem);margin-top:16px}
+h1 span{color:var(--accent)}
+.lead{font-size:18px;color:var(--fg-muted);max-width:68ch;margin:16px 0 0}
+.meta{font-size:13px;color:var(--fg-muted);margin-top:12px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px}
+.kpi{background:var(--bg-soft);border-radius:var(--radius-card);padding:20px 24px}
+.kpi b{display:block;font:700 44px/1 var(--font-display);margin-top:6px;font-variant-numeric:tabular-nums}
+.kpi span{font-size:13px;color:var(--fg-muted)}
+.kpi.hi{background:var(--haulmer-blue);color:#fff}.kpi.hi span{color:#fff;opacity:.8}
+.filters{display:flex;flex-wrap:wrap;gap:16px;align-items:end;background:var(--bg-soft);border-radius:var(--radius-card);padding:20px 24px}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field label{font-size:12px;font-weight:500;color:var(--fg-muted)}
+.input{font:400 15px var(--font-body);color:var(--fg);background:var(--card);border:1.5px solid var(--line);border-radius:var(--radius-btn);padding:10px 14px;min-width:0;max-width:100%}
+.input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 18%,transparent)}
+.check{display:flex;gap:8px;align-items:center;font-size:14px;padding-bottom:10px;cursor:pointer}
+.check input{width:18px;height:18px;accent-color:var(--haulmer-blue)}
+.main{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:980px){.main{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-card);padding:24px;min-width:0}
+.card h2{font-size:28px;font-weight:600}
+.sub{font-size:14px;color:var(--fg-muted);margin:6px 0 0}
+.radar-wrap{overflow-x:auto;margin-top:8px}
+.radar-wrap svg{display:block;width:100%;min-width:560px;height:auto}
+.ring{fill:none;stroke:var(--ring);stroke-width:1}
+.axis{stroke:var(--ring);stroke-width:1}
+.ring-lbl{font:500 11px var(--font-body);fill:var(--fg-muted)}
+.ax-lbl{font:400 12px var(--font-body);fill:var(--fg);cursor:pointer}
+.ax-lbl:hover,.ax-lbl.sel{fill:var(--accent);font-weight:700}
+.area{fill:var(--accent);fill-opacity:.16;stroke:none}
+.edge{fill:none;stroke:var(--accent);stroke-width:2.25;stroke-linejoin:round}
+.vtx{fill:var(--card);stroke:var(--accent);stroke-width:2.25;cursor:pointer;transition:r .12s}
+.vtx:hover,.vtx.sel{fill:var(--accent);r:7}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{display:inline-flex;gap:8px;align-items:center;border:1.5px solid var(--line);background:var(--card);color:var(--fg);border-radius:var(--radius-pill);padding:5px 12px;font:500 13px var(--font-body);cursor:pointer}
+.chip i{font-style:normal;color:var(--fg-muted);font-variant-numeric:tabular-nums}
+.chip[aria-pressed="false"]{opacity:.45;text-decoration:line-through}
+.chip:hover{border-color:var(--accent)}
+.btn{font:500 13px var(--font-body);padding:8px 16px;border-radius:var(--radius-pill);border:1.5px solid var(--fg);background:transparent;color:var(--fg);cursor:pointer}
+.btn:hover{background:var(--fg);color:var(--bg)}
+.side{display:grid;gap:24px;min-width:0}
+.head-row{display:flex;justify-content:space-between;gap:12px;align-items:start;flex-wrap:wrap}
+.detail{background:var(--accent-soft);border-color:transparent}
+.detail .big{font:700 56px/1 var(--font-display);color:var(--accent);font-variant-numeric:tabular-nums}
+.detail .cat{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--fg-muted)}
+.detail h3{font-size:24px;font-weight:600;margin:6px 0 12px}
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.pill{background:var(--accent);color:#fff;border-radius:var(--radius-pill);padding:4px 12px;font:500 12px var(--font-body)}
+.tbl-wrap{overflow:auto;max-height:560px;margin-top:16px;border-top:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:560px}
+th{position:sticky;top:0;background:var(--card);text-align:left;font:500 12px var(--font-body);letter-spacing:.06em;text-transform:uppercase;color:var(--fg-muted);padding:12px 12px;border-bottom:1px solid var(--line)}
+td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr.r{cursor:pointer}tr.r:hover td,tr.r.sel td{background:var(--bg-soft)}
+td.num{width:190px;font-variant-numeric:tabular-nums}
+.bar{display:inline-block;height:8px;border-radius:var(--radius-pill);background:var(--accent);vertical-align:middle;margin-right:10px}
+.empty{padding:48px 16px;text-align:center;color:var(--fg-muted)}
+#tip{position:fixed;z-index:30;pointer-events:none;background:var(--tip-bg);color:var(--tip-fg);border-radius:12px;padding:10px 14px;font-size:13px;max-width:280px;opacity:0;transition:opacity .1s}
+#tip.on{opacity:1}#tip b{display:block;font:600 16px var(--font-display);margin-bottom:4px}
+footer{font-size:12px;color:var(--fg-muted);border-top:1px solid var(--line);padding-top:16px}
+:focus-visible{outline:3px solid var(--haulmer-blue-40);outline-offset:2px}
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow"><span class="dot"></span>Benchmark competitivo · Retail</span>
+    <h1>Radar de <span>repetición</span>.</h1>
+    <p class="lead">Cada punta del radar es una funcionalidad. Mientras más lejos del centro, más competidores del panel la ofrecen. Sirve para distinguir lo que ya es estándar de la industria de lo que solo hace un jugador.</p>
+    <p class="meta">Fuente: Benchmark_Retail.xlsx, pestaña tabla_frecuencia · Actualizado 06-10-2026 18:21</p>
+  </header>
+
+  <section class="kpis" id="kpis" aria-label="Resumen"></section>
+
+  <section class="filters" aria-label="Filtros">
+    <div class="field"><label for="f-search">Buscar</label><input class="input" id="f-search" type="search" placeholder="funcionalidad…"></div>
+    <div class="field"><label for="f-cat">Categoría</label><select class="input" id="f-cat"></select></div>
+    <div class="field"><label for="f-mode">Vista del radar</label>
+      <select class="input" id="f-mode"><option value="topn">Top N</option><option value="block">Bloques de 10</option></select></div>
+    <div class="field" id="w-topn"><label for="f-topn">Top</label>
+      <select class="input" id="f-topn"><option>10</option><option selected>15</option><option>20</option><option>30</option><option value="all">Todas</option></select></div>
+    <div class="field" id="w-block" hidden><label for="f-block">Bloque</label><select class="input" id="f-block"></select></div>
+    <label class="check"><input type="checkbox" id="f-adapt" checked>Escala ajustada al grupo</label>
+  </section>
+
+  <section class="main">
+    <div class="card">
+      <h2>Frecuencia de repetición</h2>
+      <p class="sub" id="radar-sub"></p>
+      <div class="radar-wrap" id="radar"></div>
+    </div>
+    <div class="side">
+      <div class="card detail" id="detail"></div>
+      <div class="card">
+        <div class="head-row"><div><h2>Competidores</h2><p class="sub">Toca uno para excluirlo y ver cómo cambia el radar.</p></div>
+          <button class="btn" id="reset" type="button">Restablecer</button></div>
+        <div class="chips" id="chips"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Todas las funcionalidades de esta vista</h2>
+    <p class="sub" id="tbl-sub"></p>
+    <div class="tbl-wrap"><table><thead><tr><th>Categoría</th><th>Funcionalidad</th><th>Frecuencia</th></tr></thead><tbody id="tbody"></tbody></table></div>
+  </section>
+
+  <footer>Haulmer Design System v0.1 · Modo TUU · Datos del benchmark de competidores POS/ERP.</footer>
+</div>
+<div id="tip" role="tooltip"></div>
+
+<script>
+const DATA = {"competitors": ["Square (Block)", "SumUp", "Shopify (POS)", "Lightspeed", "Clover (Fiserv)", "Toast", "Transbank", "Getnet (Santander)", "Bsale", "Defontana", "Fudo", "Kushki / KushkiOne", "Mercado Pago (Point)", "Treinta", "Alegra (POS)", "Loyverse POS", "Zettle (PayPal)", "Siigo POS", "Linx", "Cegid", "Retail Pro"], "rows": [{"cat": "Punto de Venta / Carrito de Venta", "label": "Apartados (layaway)", "c": ["Retail Pro"]}, {"cat": "Punto de Venta / Carrito de Venta", "label": "App móvil de ventas", "c": ["Bsale", "Treinta", "Zettle (PayPal)", "Linx", "Cegid", "Retail Pro"]}, {"cat": "Punto de Venta / Carrito de Venta", "label": "Autoatención (self-checkout)", "c": ["Linx"]}, {"cat": "Punto de Venta / Carrito de Venta", "label": "Carrito con modificadores y notas por ítem", "c": ["Square (Block)", "Clover (Fiserv)", "Loyverse POS"]}, {"cat": "Punto de Venta / Carrito de Venta", "label": "Comandas digitales y pantalla de cocina", "c": ["Fudo", "Loyverse POS"]}, {"cat": "Punto de Venta / Carrito de Venta", "label": "División de cuenta entre comensales", "c": ["Fudo"]}, {"cat": "Punto de Venta / Carrito de Venta", "label": "Facturación electrónica y cumplimiento fiscal (SII)", "c": ["Transbank", "Bsale", "Defontana", "Fudo", "Treinta", "Alegra (POS)", "Siigo POS", "Linx", "Retail Pro"]}, {"cat": "Punto de Venta / Carrito de Venta", "label": "Gestión de clientes en la venta", "c": ["Shopify (POS)", "Lightspeed", "Cegid", "Retail Pro"]}, {"cat": "Punto de Venta / Carrito de Venta", "label": "Gestión de mesas", "c": ["Alegra (POS)"]}, {"cat": "Punto de Venta / Carrito de Venta", "label": "Gestión multi-tienda desde una cuenta", "c": ["Alegra (POS)", "Loyverse POS"]}, {"cat": "Punto de Venta / Carrito de Venta", "label": "Integración con e-commerce, marketplaces y delivery", "c": ["Defontana", "Siigo POS", "Linx"]}, {"cat": "Punto de Venta / Carrito de Venta", "label": "Integración vía API y marketplace de apps", "c": ["Clover (Fiserv)", "Kushki / KushkiOne", "Mercado Pago (Point)", "Alegra (POS)"]}, {"cat": "Punto de Venta / Carrito de Venta", "label": "POS multidispositivo", "c": ["Toast", "Treinta", "Alegra (POS)", "Retail Pro"]}, {"cat": "Punto de Venta / Carrito de Venta", "label": "Pago de cuentas, recargas y servicios", "c": ["Getnet (Santander)"]}, {"cat": "Punto de Venta / Carrito de Venta", "label": "Pantalla de cliente", "c": ["Loyverse POS"]}, {"cat": "Punto de Venta / Carrito de Venta", "label": "Preventas", "c": ["Defontana"]}, {"cat": "Punto de Venta / Carrito de Venta", "label": "Recibos digitales e impresos", "c": ["Shopify (POS)", "Kushki / KushkiOne", "Treinta", "Zettle (PayPal)"]}, {"cat": "Punto de Venta / Carrito de Venta", "label": "Registro rápido de ventas en POS", "c": ["SumUp", "Bsale", "Treinta", "Siigo POS", "Linx"]}, {"cat": "Punto de Venta / Carrito de Venta", "label": "Smart POS Android", "c": ["Transbank", "Kushki / KushkiOne", "Mercado Pago (Point)"]}, {"cat": "Punto de Venta / Carrito de Venta", "label": "Tickets y pedidos abiertos", "c": ["Square (Block)", "SumUp", "Loyverse POS"]}, {"cat": "Punto de Venta / Carrito de Venta", "label": "Venta a crédito (fiado)", "c": ["Treinta"]}, {"cat": "Punto de Venta / Carrito de Venta", "label": "Venta con lector de código de barras", "c": ["Square (Block)", "SumUp", "Shopify (POS)", "Lightspeed", "Clover (Fiserv)", "Toast", "Defontana", "Alegra (POS)", "Loyverse POS", "Zettle (PayPal)", "Siigo POS", "Linx"]}, {"cat": "Punto de Venta / Carrito de Venta", "label": "Venta de artículos personalizados (custom sales)", "c": ["Shopify (POS)"]}, {"cat": "Punto de Venta / Carrito de Venta", "label": "Venta mayorista B2B", "c": ["Cegid"]}, {"cat": "Punto de Venta / Carrito de Venta", "label": "Venta omnicanal (retiro en tienda, envío, entrega local)", "c": ["Shopify (POS)", "Bsale", "Fudo", "Cegid"]}, {"cat": "Punto de Venta / Carrito de Venta", "label": "Órdenes especiales y de trabajo", "c": ["Lightspeed"]}, {"cat": "Catálogo", "label": "Cambios de precio programados", "c": ["Retail Pro"]}, {"cat": "Catálogo", "label": "Carga masiva e importación de catálogo", "c": ["Square (Block)", "Defontana"]}, {"cat": "Catálogo", "label": "Catálogo de productos con variantes (talla, color, estilo)", "c": ["Square (Block)", "Shopify (POS)", "Lightspeed", "Clover (Fiserv)", "Toast", "Treinta", "Zettle (PayPal)", "Retail Pro"]}, {"cat": "Catálogo", "label": "Catálogo unificado multicanal", "c": ["Cegid", "Retail Pro"]}, {"cat": "Catálogo", "label": "Catálogo virtual y tienda online", "c": ["Bsale", "Fudo", "Treinta"]}, {"cat": "Catálogo", "label": "Digitalización de catálogo con IA", "c": ["SumUp"]}, {"cat": "Catálogo", "label": "Gestión de catálogo de productos y servicios", "c": ["SumUp", "Siigo POS", "Linx"]}, {"cat": "Catálogo", "label": "Impresión de etiquetas y códigos de barras", "c": ["Square (Block)", "Clover (Fiserv)", "Toast"]}, {"cat": "Catálogo", "label": "Listas de precios múltiples", "c": ["Bsale", "Defontana", "Alegra (POS)", "Retail Pro"]}, {"cat": "Catálogo", "label": "Packs de productos", "c": ["Defontana"]}, {"cat": "Catálogo", "label": "Recetas y costeo de insumos", "c": ["Fudo", "Treinta"]}, {"cat": "Inventario", "label": "Alertas de stock bajo", "c": ["Square (Block)", "Clover (Fiserv)", "Toast", "Fudo", "Treinta", "Alegra (POS)", "Loyverse POS"]}, {"cat": "Inventario", "label": "Conteo de inventario y conciliación física", "c": ["Treinta", "Loyverse POS"]}, {"cat": "Inventario", "label": "Control de stock en tiempo real", "c": ["Clover (Fiserv)", "Toast", "Bsale", "Treinta", "Loyverse POS", "Zettle (PayPal)", "Siigo POS"]}, {"cat": "Inventario", "label": "Control de stock multi-bodega y multi-sucursal", "c": ["Square (Block)", "Shopify (POS)", "Lightspeed", "Clover (Fiserv)", "Toast", "Bsale", "Defontana", "Alegra (POS)", "Siigo POS", "Linx", "Retail Pro"]}, {"cat": "Inventario", "label": "Descuento automático de stock por pedido", "c": ["Fudo"]}, {"cat": "Inventario", "label": "Historial de movimientos de stock", "c": ["Treinta"]}, {"cat": "Inventario", "label": "Inventario con RFID por zonas", "c": ["Retail Pro"]}, {"cat": "Inventario", "label": "Pronóstico y reposición de inventario", "c": ["Lightspeed", "Defontana", "Cegid"]}, {"cat": "Inventario", "label": "Recepción de inventario con escáner", "c": ["Clover (Fiserv)", "Toast"]}, {"cat": "Inventario", "label": "Reposición automática min/max", "c": ["SumUp", "Retail Pro"]}, {"cat": "Inventario", "label": "Seguimiento de productos serializados", "c": ["Retail Pro"]}, {"cat": "Inventario", "label": "Sincronización de inventario multicanal", "c": ["Bsale", "Cegid"]}, {"cat": "Inventario", "label": "Traspasos entre sucursales", "c": ["Shopify (POS)", "Loyverse POS"]}, {"cat": "Inventario", "label": "Órdenes de compra y proveedores", "c": ["Square (Block)", "Lightspeed", "Fudo", "Linx", "Cegid"]}, {"cat": "Control de Caja", "label": "Apertura y cierre de caja", "c": ["SumUp", "Shopify (POS)", "Bsale", "Defontana", "Fudo", "Kushki / KushkiOne", "Treinta", "Siigo POS", "Linx"]}, {"cat": "Control de Caja", "label": "Cajón de efectivo conectable", "c": ["Zettle (PayPal)"]}, {"cat": "Control de Caja", "label": "Cierre de lote (batch) diario", "c": ["Clover (Fiserv)"]}, {"cat": "Control de Caja", "label": "Conciliación automática de ventas y pagos", "c": ["Fudo", "Mercado Pago (Point)"]}, {"cat": "Control de Caja", "label": "Control de turnos de caja", "c": ["Square (Block)", "Clover (Fiserv)", "Toast", "Alegra (POS)", "Loyverse POS"]}, {"cat": "Control de Caja", "label": "Multi-caja y multi-outlet con conciliación", "c": ["Lightspeed"]}, {"cat": "Seguridad", "label": "Acceso multiusuario con credenciales individuales", "c": ["SumUp", "Fudo", "Treinta", "Zettle (PayPal)", "Retail Pro"]}, {"cat": "Seguridad", "label": "Cumplimiento PCI y cifrado de pagos", "c": ["Square (Block)", "SumUp", "Clover (Fiserv)", "Toast", "Kushki / KushkiOne", "Mercado Pago (Point)"]}, {"cat": "Seguridad", "label": "Roles y permisos de usuario", "c": ["Square (Block)", "Shopify (POS)", "Lightspeed", "Clover (Fiserv)", "Toast", "Bsale", "Defontana", "Fudo", "Kushki / KushkiOne", "Alegra (POS)", "Loyverse POS", "Siigo POS"]}, {"cat": "Control de Efectivo", "label": "Conteo y conciliación de efectivo", "c": ["Lightspeed", "Alegra (POS)"]}, {"cat": "Control de Efectivo", "label": "Redondeo de efectivo", "c": ["Shopify (POS)"]}, {"cat": "Control de Efectivo", "label": "Registro de ingresos y egresos de caja", "c": ["Square (Block)", "Clover (Fiserv)", "Toast", "Defontana"]}, {"cat": "Control de Efectivo", "label": "Registro de ventas y pagos en efectivo", "c": ["SumUp", "Getnet (Santander)", "Zettle (PayPal)"]}, {"cat": "Control de Efectivo", "label": "Seguimiento de flujo de efectivo", "c": ["Treinta", "Loyverse POS"]}, {"cat": "Control de Efectivo", "label": "Separación de efectivo y medios electrónicos al cierre", "c": ["Defontana"]}, {"cat": "Flujo de Pago", "label": "Abono rápido de ventas", "c": ["Transbank", "Getnet (Santander)", "Mercado Pago (Point)", "Zettle (PayPal)"]}, {"cat": "Flujo de Pago", "label": "Autorización y captura posterior", "c": ["Kushki / KushkiOne"]}, {"cat": "Flujo de Pago", "label": "Integración con medios de pago y terminales de terceros (TEF)", "c": ["Shopify (POS)", "Lightspeed", "Bsale", "Linx"]}, {"cat": "Flujo de Pago", "label": "Integración de pagos EMV", "c": ["Cegid"]}, {"cat": "Flujo de Pago", "label": "Lector mPOS Bluetooth", "c": ["Transbank", "Mercado Pago (Point)"]}, {"cat": "Flujo de Pago", "label": "Link de pago", "c": ["SumUp", "Clover (Fiserv)", "Transbank", "Getnet (Santander)", "Mercado Pago (Point)"]}, {"cat": "Flujo de Pago", "label": "Número de ticket único", "c": ["Kushki / KushkiOne"]}, {"cat": "Flujo de Pago", "label": "Pago con QR", "c": ["Transbank", "Getnet (Santander)", "Defontana", "Mercado Pago (Point)"]}, {"cat": "Flujo de Pago", "label": "Pago con billeteras digitales", "c": ["Mercado Pago (Point)", "Zettle (PayPal)"]}, {"cat": "Flujo de Pago", "label": "Pago con tarjeta (chip, banda y contactless)", "c": ["Square (Block)", "SumUp", "Clover (Fiserv)", "Transbank", "Getnet (Santander)", "Mercado Pago (Point)", "Zettle (PayPal)"]}, {"cat": "Flujo de Pago", "label": "Pago con tarjetas de alimentación", "c": ["Mercado Pago (Point)"]}, {"cat": "Flujo de Pago", "label": "Pago dividido entre múltiples medios de pago", "c": ["Square (Block)", "Clover (Fiserv)", "Defontana", "Kushki / KushkiOne", "Treinta", "Alegra (POS)", "Loyverse POS", "Siigo POS"]}, {"cat": "Flujo de Pago", "label": "Pago sin selección del tipo de tarjeta", "c": ["Getnet (Santander)"]}, {"cat": "Flujo de Pago", "label": "Pagos en línea (pasarela y checkout web)", "c": ["Toast", "Transbank", "Getnet (Santander)", "Kushki / KushkiOne"]}, {"cat": "Flujo de Pago", "label": "Pagos recurrentes", "c": ["Getnet (Santander)"]}, {"cat": "Flujo de Pago", "label": "Procesamiento de pagos integrado (adquirencia propia)", "c": ["Lightspeed", "Toast", "Kushki / KushkiOne", "Retail Pro"]}, {"cat": "Flujo de Pago", "label": "Propina en terminal", "c": ["Transbank", "Mercado Pago (Point)"]}, {"cat": "Flujo de Pago", "label": "Propinas configurables", "c": ["Clover (Fiserv)", "Getnet (Santander)", "Fudo", "Kushki / KushkiOne"]}, {"cat": "Flujo de Pago", "label": "Tap to Pay en el teléfono (SoftPOS)", "c": ["Shopify (POS)", "Kushki / KushkiOne", "Zettle (PayPal)"]}, {"cat": "Flujo de Pago", "label": "Terminales de pago integradas al POS", "c": ["Getnet (Santander)", "Fudo", "Loyverse POS"]}, {"cat": "Flujo de Pago", "label": "Venta en cuotas (con y sin interés)", "c": ["Transbank", "Getnet (Santander)", "Mercado Pago (Point)"]}, {"cat": "Continuidad operativa", "label": "Conectividad dual 4G y WiFi", "c": ["Transbank"]}, {"cat": "Continuidad operativa", "label": "Disponibilidad de plataforma 99,9%", "c": ["Shopify (POS)"]}, {"cat": "Continuidad operativa", "label": "Modo offline con sincronización automática", "c": ["Square (Block)", "SumUp", "Shopify (POS)", "Lightspeed", "Clover (Fiserv)", "Toast", "Defontana", "Alegra (POS)", "Loyverse POS", "Zettle (PayPal)", "Linx", "Cegid", "Retail Pro"]}, {"cat": "Continuidad operativa", "label": "POS temporal por arriendo", "c": ["Transbank"]}, {"cat": "Continuidad operativa", "label": "Plataforma 100% en la nube", "c": ["Bsale", "Fudo"]}, {"cat": "Continuidad operativa", "label": "Soporte técnico 24/7 y reemplazo de hardware", "c": ["Lightspeed", "Clover (Fiserv)", "Toast", "Alegra (POS)"]}, {"cat": "Promociones y Descuentos", "label": "Cupones y códigos de descuento", "c": ["Square (Block)", "Shopify (POS)"]}, {"cat": "Promociones y Descuentos", "label": "Descuentos manuales por ítem y por venta", "c": ["SumUp", "Clover (Fiserv)", "Fudo", "Alegra (POS)", "Loyverse POS", "Zettle (PayPal)", "Siigo POS"]}, {"cat": "Promociones y Descuentos", "label": "Programa de fidelización y lealtad", "c": ["Square (Block)", "Clover (Fiserv)", "Toast", "Loyverse POS", "Linx", "Cegid"]}, {"cat": "Promociones y Descuentos", "label": "Promociones y descuentos automáticos", "c": ["Lightspeed", "Toast", "Linx", "Cegid", "Retail Pro"]}, {"cat": "Promociones y Descuentos", "label": "Tarjetas de regalo", "c": ["Shopify (POS)"]}, {"cat": "Informes y alertas", "label": "Dashboard de KPI y analítica visual", "c": ["Treinta", "Cegid", "Retail Pro"]}, {"cat": "Informes y alertas", "label": "Desempeño por vendedor y punto de venta", "c": ["Bsale", "Alegra (POS)"]}, {"cat": "Informes y alertas", "label": "Historial de transacciones con filtros", "c": ["Kushki / KushkiOne"]}, {"cat": "Informes y alertas", "label": "Informes de ventas e inventario", "c": ["Square (Block)", "Shopify (POS)", "Clover (Fiserv)", "Mercado Pago (Point)", "Alegra (POS)", "Loyverse POS", "Siigo POS", "Linx"]}, {"cat": "Informes y alertas", "label": "Informes de ventas por SKU y categoría", "c": ["Toast"]}, {"cat": "Informes y alertas", "label": "Integración contable y nómina", "c": ["Loyverse POS", "Zettle (PayPal)", "Siigo POS"]}, {"cat": "Informes y alertas", "label": "Portal y app de reportes del comercio", "c": ["Square (Block)", "Transbank", "Getnet (Santander)"]}, {"cat": "Informes y alertas", "label": "Reportes consolidados multi-sucursal", "c": ["Lightspeed", "Fudo"]}, {"cat": "Informes y alertas", "label": "Reportes de rentabilidad y utilidad", "c": ["Fudo", "Treinta"]}, {"cat": "Informes y alertas", "label": "Reportes de ventas en tiempo real", "c": ["Lightspeed", "Bsale", "Defontana", "Zettle (PayPal)"]}, {"cat": "Informes y alertas", "label": "Reportes en terminal", "c": ["Transbank"]}, {"cat": "Informes y alertas", "label": "Reportes por período, medio de pago y usuario", "c": ["SumUp"]}, {"cat": "Onboarding y Adopción", "label": "Alta y configuración rápida", "c": ["SumUp", "Kushki / KushkiOne", "Zettle (PayPal)", "Cegid"]}, {"cat": "Onboarding y Adopción", "label": "Capacitación virtual y asesorías", "c": ["Siigo POS"]}, {"cat": "Onboarding y Adopción", "label": "Onboarding guiado con acompañamiento", "c": ["Shopify (POS)", "Lightspeed", "Toast", "Defontana", "Fudo"]}, {"cat": "Onboarding y Adopción", "label": "Precio mensual fijo sin comisión por transacción", "c": ["Bsale"]}, {"cat": "Onboarding y Adopción", "label": "Soporte local y centro de ayuda", "c": ["Transbank", "Bsale", "Loyverse POS"]}, {"cat": "Gestión de cambios y devoluciones", "label": "Anulación de ventas", "c": ["Toast", "Transbank", "Defontana"]}, {"cat": "Gestión de cambios y devoluciones", "label": "Devoluciones entre sucursales", "c": ["Square (Block)"]}, {"cat": "Gestión de cambios y devoluciones", "label": "Devoluciones y cambios en tienda", "c": ["Square (Block)", "Shopify (POS)", "Lightspeed", "Toast", "Kushki / KushkiOne", "Linx"]}, {"cat": "Gestión de cambios y devoluciones", "label": "Nota de crédito con retorno a stock", "c": ["Defontana"]}, {"cat": "Gestión de cambios y devoluciones", "label": "Notas de crédito y débito", "c": ["Bsale", "Siigo POS"]}, {"cat": "Gestión de cambios y devoluciones", "label": "Reembolsos totales y parciales", "c": ["SumUp", "Clover (Fiserv)", "Mercado Pago (Point)", "Loyverse POS", "Zettle (PayPal)"]}]};
+(function(){
+  const $ = s => document.getElementById(s);
+  const S = {topN:'15', mode:'topn', block:0, cat:'', q:'', adapt:true, off:{}, sel:null};
+  const NS = 'http://www.w3.org/2000/svg';
+  const svgEl = (t,a) => { const e=document.createElementNS(NS,t); for(const k in a) e.setAttribute(k,a[k]); return e; };
+  const key = r => r.cat+'|'+r.label;
+
+  function eff(){
+    return DATA.rows.map(r => { const c=r.c.filter(x=>!S.off[x]); return {cat:r.cat,label:r.label,c:c,total:c.length}; })
+      .filter(r=>r.total>0)
+      .sort((a,b)=>b.total-a.total||a.label.localeCompare(b.label,'es'));
+  }
+  function filtered(all){
+    const q=S.q.toLowerCase();
+    return all.filter(r=>(!S.cat||r.cat===S.cat)&&(!q||r.label.toLowerCase().includes(q)));
+  }
+  function slice(rows){
+    if(S.mode==='block') return rows.slice(S.block*10,S.block*10+10);
+    return S.topN==='all'?rows:rows.slice(0,parseInt(S.topN,10));
+  }
+  const niceMax = v => v<=5?5:v<=10?10:Math.ceil(v/5)*5;
+  function wrap(t,n){ const out=[]; let l=''; t.split(' ').forEach(w=>{ if((l+' '+w).trim().length>n){out.push(l.trim());l=w}else l=(l+' '+w).trim() }); if(l)out.push(l); return out; }
+
+  const tip=$('tip');
+  function showTip(e,r){
+    tip.innerHTML='<b></b><span></span>';
+    tip.firstChild.textContent=r.label;
+    tip.lastChild.textContent=r.total+' de '+activeCount()+' competidores: '+r.c.join(', ');
+    tip.classList.add('on');
+    const x=Math.min(e.clientX+14,innerWidth-296), y=e.clientY+14;
+    tip.style.left=Math.max(8,x)+'px'; tip.style.top=y+'px';
+  }
+  const hideTip=()=>tip.classList.remove('on');
+  const activeCount=()=>DATA.competitors.filter(c=>!S.off[c]).length;
+
+  function select(r){ S.sel=key(r); render(); }
+
+  function drawRadar(all,rows){
+    const mount=$('radar'); mount.innerHTML='';
+    if(!rows.length){ mount.innerHTML='<div class="empty">Sin resultados para este filtro.</div>'; return; }
+    const top=slice(rows), n=top.length;
+    const gmax=all.length?all[0].total:1, lmax=Math.max(...top.map(r=>r.total));
+    const MAXV=niceMax(S.adapt?lmax:gmax);
+    const W=780,H=660,CX=W/2,CY=H/2,R=Math.max(100,225-Math.max(0,n-16)*3),LR=R+(n>26?24:36);
+    const svg=svgEl('svg',{viewBox:'0 0 '+W+' '+H,role:'img','aria-label':'Radar de frecuencia de repetición'});
+    const pol=(i,v)=>{const a=Math.PI*2*i/n-Math.PI/2,rr=v/MAXV*R;return{x:CX+rr*Math.cos(a),y:CY+rr*Math.sin(a),a:a}};
+    const rc=MAXV<=10?MAXV:5, st=MAXV/rc;
+    for(let i=1;i<=rc;i++){
+      const rr=i*st/MAXV*R;
+      svg.appendChild(svgEl('circle',{class:'ring',cx:CX,cy:CY,r:rr}));
+      const t=svgEl('text',{class:'ring-lbl',x:CX+4,y:CY-rr-3}); t.textContent=Math.round(i*st); svg.appendChild(t);
+    }
+    top.forEach((r,i)=>{
+      const o=pol(i,MAXV);
+      svg.appendChild(svgEl('line',{class:'axis',x1:CX,y1:CY,x2:o.x,y2:o.y}));
+      const lx=CX+LR*Math.cos(o.a), ly=CY+LR*Math.sin(o.a);
+      const anc=lx>CX+6?'start':lx<CX-6?'end':'middle';
+      const lines=wrap(r.label,n>24?14:18);
+      const t=svgEl('text',{class:'ax-lbl'+(S.sel===key(r)?' sel':''),x:lx,y:ly-(lines.length-1)*6+4,'text-anchor':anc});
+      lines.forEach((ln,li)=>{const ts=svgEl('tspan',{x:lx,dy:li?13:0});ts.textContent=ln;t.appendChild(ts)});
+      t.addEventListener('click',()=>select(r));
+      t.addEventListener('pointermove',e=>showTip(e,r)); t.addEventListener('pointerleave',hideTip);
+      svg.appendChild(t);
+    });
+    const pts=top.map((r,i)=>pol(i,r.total));
+    const d='M '+pts.map(p=>p.x+','+p.y).join(' L ')+' Z';
+    svg.appendChild(svgEl('path',{class:'area',d:d}));
+    svg.appendChild(svgEl('path',{class:'edge',d:d}));
+    top.forEach((r,i)=>{
+      const v=svgEl('circle',{class:'vtx'+(S.sel===key(r)?' sel':''),cx:pts[i].x,cy:pts[i].y,r:5});
+      v.addEventListener('pointermove',e=>showTip(e,r)); v.addEventListener('pointerleave',hideTip);
+      v.addEventListener('click',()=>select(r));
+      svg.appendChild(v);
+    });
+    mount.appendChild(svg);
+    $('radar-sub').textContent = (S.mode==='block'?'Bloque '+(S.block*10+1)+'–'+(S.block*10+n):'Top '+n)+' de '+rows.length+' funcionalidades · escala 0–'+MAXV+' competidores ('+(S.adapt?'ajustada al grupo':'global')+')';
+  }
+
+  function drawDetail(all){
+    const box=$('detail');
+    const r=all.find(x=>key(x)===S.sel)||all[0];
+    if(!r){ box.innerHTML='<div class="empty">Sin datos.</div>'; return; }
+    box.innerHTML='<div class="cat"></div><h3></h3><div class="big"></div><div class="sub"></div><div class="pills"></div>';
+    box.children[0].textContent=r.cat; box.children[1].textContent=r.label;
+    box.children[2].textContent=r.total; box.children[3].textContent='de '+activeCount()+' competidores activos la ofrecen';
+    r.c.forEach(c=>{const p=document.createElement('span');p.className='pill';p.textContent=c;box.children[4].appendChild(p)});
+  }
+
+  function drawTable(rows){
+    const max=rows.length?rows[0].total:1, tb=$('tbody'); tb.innerHTML='';
+    rows.forEach(r=>{
+      const tr=document.createElement('tr'); tr.className='r'+(S.sel===key(r)?' sel':'');
+      const w=Math.max(6,r.total/Math.max(max,1)*110);
+      tr.innerHTML='<td></td><td></td><td class="num"><span class="bar" style="width:'+w+'px"></span><b>'+r.total+'</b></td>';
+      tr.children[0].textContent=r.cat; tr.children[1].textContent=r.label;
+      tr.addEventListener('click',()=>select(r)); tb.appendChild(tr);
+    });
+    $('tbl-sub').textContent=rows.length+' funcionalidades ordenadas por repetición.';
+  }
+
+  function drawChips(){
+    const cnt={}; DATA.rows.forEach(r=>r.c.forEach(c=>cnt[c]=(cnt[c]||0)+1));
+    const box=$('chips'); box.innerHTML='';
+    DATA.competitors.slice().sort((a,b)=>(cnt[b]||0)-(cnt[a]||0)||a.localeCompare(b)).forEach(c=>{
+      const b=document.createElement('button'); b.type='button'; b.className='chip'; b.setAttribute('aria-pressed',S.off[c]?'false':'true');
+      b.innerHTML='<span></span><i>'+(cnt[c]||0)+'</i>'; b.firstChild.textContent=c;
+      b.addEventListener('click',()=>{S.off[c]=!S.off[c];render()}); box.appendChild(b);
+    });
+  }
+
+  function drawKpis(all){
+    const cats=new Set(DATA.rows.map(r=>r.cat)).size;
+    const k=[['Funcionalidades',DATA.rows.length,''],['Competidores activos',activeCount()+' / '+DATA.competitors.length,''],['Categorías',cats,''],['Máxima repetición',all.length?all[0].total:0,'hi']];
+    $('kpis').innerHTML=k.map(x=>'<div class="kpi '+x[2]+'"><span>'+x[0]+'</span><b>'+x[1]+'</b></div>').join('');
+  }
+
+  function populateBlock(total){
+    const sel=$('f-block'), n=Math.max(1,Math.ceil(total/10)); if(S.block>=n)S.block=0;
+    sel.innerHTML=''; for(let i=0;i<n;i++){const o=document.createElement('option');o.value=i;o.textContent=(i*10+1)+'–'+Math.min((i+1)*10,total);sel.appendChild(o)}
+    sel.value=S.block;
+  }
+
+  function render(){
+    const all=eff(), rows=filtered(all);
+    $('w-topn').hidden=S.mode==='block'; $('w-block').hidden=S.mode!=='block';
+    populateBlock(rows.length);
+    drawKpis(all); drawRadar(all,rows); drawDetail(all); drawTable(rows); drawChips();
+  }
+
+  const cats=Array.from(new Set(DATA.rows.map(r=>r.cat)));
+  $('f-cat').innerHTML='<option value="">Todas</option>'+cats.map(c=>'<option></option>').join('');
+  Array.from($('f-cat').options).slice(1).forEach((o,i)=>{o.value=cats[i];o.textContent=cats[i]});
+  $('f-search').addEventListener('input',e=>{S.q=e.target.value;S.block=0;render()});
+  $('f-cat').addEventListener('change',e=>{S.cat=e.target.value;S.block=0;render()});
+  $('f-mode').addEventListener('change',e=>{S.mode=e.target.value;render()});
+  $('f-topn').addEventListener('change',e=>{S.topN=e.target.value;render()});
+  $('f-block').addEventListener('change',e=>{S.block=parseInt(e.target.value,10);render()});
+  $('f-adapt').addEventListener('change',e=>{S.adapt=e.target.checked;render()});
+  $('reset').addEventListener('click',()=>{S.off={};render()});
+  render();
+})();
+</script>
+
+</body></html>
