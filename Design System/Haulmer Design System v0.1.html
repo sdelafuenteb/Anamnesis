@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<!-- estilo Haulmer v0.1 (aproximado) — Design System generado desde la skill haulmer-design-style. Logos son placeholders. -->
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Haulmer Design System v0.1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Brand tokens (fijos) */
+  --haulmer-blue:#1E1EFF; --haulmer-blue-70:#5C5CFF; --haulmer-blue-40:#A3A3FF; --haulmer-blue-10:#E8E8FF;
+  --haulmer-black:#1A1A1A; --haulmer-gray-900:#0A0A0A; --haulmer-gray-500:#9CA3AF;
+  --haulmer-gray-200:#E5E5E7; --haulmer-gray-50:#F5F5F7; --haulmer-white:#FFFFFF;
+  --font-display:'Rajdhani','Arial Narrow','Helvetica Neue',Arial,sans-serif;
+  --font-body:'DM Sans',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
+  --radius-pill:9999px; --radius-card:20px; --radius-btn:12px; --radius-sm:8px;
+  --s1:8px;--s2:16px;--s3:24px;--s4:32px;--s6:48px;--s8:64px;--s12:96px;
+  --shadow-1:0 1px 2px rgba(10,10,10,.06),0 1px 3px rgba(10,10,10,.08);
+  --shadow-2:0 8px 24px rgba(10,10,10,.08);
+  --shadow-3:0 24px 48px rgba(10,10,10,.12);
+  /* Superficie del documento (tema) */
+  --bg:#FFFFFF; --bg-soft:#F5F5F7; --fg:#1A1A1A; --fg-muted:#6B7280; --line:#E5E5E7; --card:#FFFFFF;
+  --accent:var(--haulmer-blue); --cta:var(--haulmer-black); --cta-fg:#FFFFFF;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#0A0A0A;--bg-soft:#141416;--fg:#F5F5F7;--fg-muted:#9CA3AF;--line:#26262A;--card:#141416;--cta:#FFFFFF;--cta-fg:#1A1A1A;}
+}
+:root[data-theme="dark"]{--bg:#0A0A0A;--bg-soft:#141416;--fg:#F5F5F7;--fg-muted:#9CA3AF;--line:#26262A;--card:#141416;--cta:#FFFFFF;--cta-fg:#1A1A1A;}
+/* Modo sobrio: el azul se vuelve puntual */
+:root[data-mode="sobrio"]{--accent:var(--haulmer-black);}
+:root[data-mode="sobrio"][data-theme="dark"]{--accent:#FFFFFF;}
+@media (prefers-color-scheme:dark){:root[data-mode="sobrio"]:not([data-theme="light"]){--accent:#FFFFFF;}}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{height:100%;scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 80px)}
+body{font-family:var(--font-body);color:var(--fg);background:var(--bg);line-height:1.5;-webkit-font-smoothing:antialiased;font-size:16px}
+h1,h2,h3,h4{font-family:var(--font-display);line-height:1.05;letter-spacing:-.01em}
+h1{font-weight:700;font-size:clamp(2.75rem,7vw,5.5rem)}
+h2{font-weight:600;font-size:clamp(2rem,4vw,3rem)}
+h3{font-weight:600;font-size:clamp(1.375rem,2.4vw,1.75rem)}
+h4{font-weight:600;font-size:1.25rem}
+a{color:inherit}
+code,.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85em}
+.accent{color:var(--accent)}
+.muted{color:var(--fg-muted)}
+
+/* Layout */
+.topbar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.topbar-in{max-width:1360px;margin:0 auto;display:flex;align-items:center;gap:var(--s2);padding:14px var(--s3)}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:700;font-size:22px;text-decoration:none}
+.brand small{font-family:var(--font-body);font-weight:500;font-size:12px;color:var(--fg-muted);border:1px solid var(--line);border-radius:var(--radius-pill);padding:2px 8px}
+.spacer{flex:1}
+.seg{display:inline-flex;background:var(--bg-soft);border:1px solid var(--line);border-radius:var(--radius-pill);padding:3px}
+.seg button{border:0;background:transparent;color:var(--fg-muted);font:500 13px var(--font-body);padding:6px 14px;border-radius:var(--radius-pill);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--card);color:var(--fg);box-shadow:var(--shadow-1)}
+.layout{max-width:1360px;margin:0 auto;display:grid;grid-template-columns:220px minmax(0,1fr);gap:var(--s6);padding:0 var(--s3)}
+nav.side{position:sticky;top:72px;align-self:start;padding:var(--s4) 0;max-height:calc(100vh - 72px);overflow:auto}
+nav.side p{font:500 11px var(--font-body);letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);margin:var(--s3) 0 var(--s1)}
+nav.side a{display:block;text-decoration:none;color:var(--fg-muted);padding:6px 12px;border-radius:var(--radius-sm);font-size:14px}
+nav.side a:hover,nav.side a.on{color:var(--fg);background:var(--bg-soft)}
+main{min-width:0;padding-bottom:var(--s12)}
+section.block{padding:var(--s12) 0 0}
+.eyebrow{display:inline-block;padding:6px 14px;border:1.5px solid currentColor;border-radius:var(--radius-pill);font:500 13px var(--font-body);color:var(--accent);margin-bottom:var(--s3)}
+.lead{font-size:18px;color:var(--fg-muted);max-width:640px;margin-top:var(--s2)}
+.sub{margin:var(--s6) 0 var(--s3)}
+.grid{display:grid;gap:var(--s3)}
+.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-card);padding:var(--s4)}
+.card.soft{background:var(--bg-soft);border-color:transparent}
+.scroll-x{overflow-x:auto;-webkit-overflow-scrolling:touch}
+@media (max-width:900px){.layout{grid-template-columns:1fr}nav.side{display:none}.topbar .seg.mode-label{display:none}}
+
+/* Hero */
+.hero{padding:var(--s12) 0 var(--s8);border-bottom:1px solid var(--line)}
+.hero h1 span{color:var(--accent)}
+.hero-meta{display:flex;flex-wrap:wrap;gap:var(--s3);margin-top:var(--s6)}
+.hero-meta div{min-width:140px}
+.hero-meta b{display:block;font-family:var(--font-display);font-size:40px;font-weight:700;line-height:1}
+.hero-meta span{font-size:13px;color:var(--fg-muted)}
+.note{display:flex;gap:12px;align-items:flex-start;margin-top:var(--s6);padding:var(--s2) var(--s3);border-radius:16px;background:var(--bg-soft);font-size:14px;color:var(--fg-muted);max-width:720px}
+
+/* Brands */
+.brandcard{border-radius:var(--radius-card);padding:var(--s6) var(--s4);min-height:240px;display:flex;flex-direction:column;justify-content:space-between}
+.brandcard .wm{font-family:var(--font-display);font-weight:700;font-size:56px;line-height:1;display:flex;align-items:center;gap:14px}
+.brandcard .endorse{font-size:15px;opacity:.7;margin-top:6px}
+.brandcard p{font-size:14px;opacity:.75}
+
+/* Swatches */
+.sw{border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--card);cursor:pointer;text-align:left;font:inherit;color:inherit;padding:0;transition:transform .15s}
+.sw:hover{transform:translateY(-2px)}
+.sw .chip{height:120px;display:flex;align-items:flex-end;padding:12px;font:500 12px var(--font-body)}
+.sw .meta{padding:14px 16px}
+.sw .meta b{display:block;font-size:14px}
+.sw .meta code{color:var(--fg-muted)}
+.ratio{display:inline-block;padding:2px 8px;border-radius:var(--radius-pill);background:rgba(255,255,255,.85);color:#1A1A1A}
+
+/* Type */
+.typerow{display:grid;grid-template-columns:180px minmax(0,1fr);gap:var(--s3);padding:var(--s3) 0;border-bottom:1px solid var(--line);align-items:baseline}
+.typerow .lbl{font-size:13px;color:var(--fg-muted)}
+.typerow .lbl b{display:block;color:var(--fg);font-size:14px}
+@media (max-width:600px){.typerow{grid-template-columns:1fr;gap:8px}}
+
+/* Spacing */
+.sp{display:flex;align-items:center;gap:var(--s3);padding:10px 0;border-bottom:1px solid var(--line)}
+.sp code{width:80px;color:var(--fg-muted)}
+.sp .bar{height:16px;background:var(--haulmer-blue);border-radius:4px}
+.radius-demo{height:96px;background:var(--bg-soft);border:1.5px solid var(--fg);display:flex;align-items:center;justify-content:center;font-size:13px}
+.shadow-demo{height:120px;background:var(--card);border-radius:var(--radius-card);display:flex;align-items:center;justify-content:center;font-size:13px}
+
+/* Components */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;background:var(--cta);color:var(--cta-fg);border-radius:var(--radius-pill);font:500 15px var(--font-body);text-decoration:none;border:1.5px solid transparent;cursor:pointer;transition:transform .12s,opacity .12s,background .12s}
+.btn:hover{transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.btn:focus-visible{outline:3px solid var(--haulmer-blue-40);outline-offset:2px}
+.btn--blue{background:var(--haulmer-blue);color:#fff}
+.btn--ghost{background:transparent;color:var(--fg);border-color:var(--fg)}
+.btn--text{background:transparent;color:var(--accent);padding-left:4px;padding-right:4px}
+.btn--rect{border-radius:var(--radius-btn)}
+.btn--sm{padding:9px 18px;font-size:13px}
+.btn--lg{padding:18px 36px;font-size:17px}
+.btn[disabled]{opacity:.35;cursor:not-allowed;transform:none}
+.row{display:flex;flex-wrap:wrap;gap:var(--s2);align-items:center}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1.5px solid currentColor;border-radius:var(--radius-pill);font:500 13px var(--font-body)}
+.badge--solid{background:var(--haulmer-blue);border-color:var(--haulmer-blue);color:#fff}
+.badge--soft{background:var(--haulmer-blue-10);border-color:transparent;color:var(--haulmer-blue)}
+.badge--dark{background:var(--haulmer-black);border-color:var(--haulmer-black);color:#fff}
+.dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+.field{display:flex;flex-direction:column;gap:8px}
+.field label{font-size:13px;font-weight:500}
+.field .hint{font-size:12px;color:var(--fg-muted)}
+.input{font:400 16px var(--font-body);color:var(--fg);background:var(--card);border:1.5px solid var(--line);border-radius:var(--radius-btn);padding:13px 16px;width:100%;transition:border-color .12s,box-shadow .12s}
+.input:focus{outline:none;border-color:var(--haulmer-blue);box-shadow:0 0 0 4px rgba(30,30,255,.12)}
+.input.err{border-color:#1A1A1A;border-style:dashed}
+.switch{position:relative;width:48px;height:28px;flex:none}
+.switch input{opacity:0;width:0;height:0}
+.switch span{position:absolute;inset:0;background:var(--line);border-radius:var(--radius-pill);cursor:pointer;transition:background .15s}
+.switch span::after{content:"";position:absolute;width:22px;height:22px;left:3px;top:3px;background:#fff;border-radius:50%;box-shadow:var(--shadow-1);transition:transform .15s}
+.switch input:checked+span{background:var(--haulmer-blue)}
+.switch input:checked+span::after{transform:translateX(20px)}
+.check{display:flex;gap:10px;align-items:center;font-size:15px;cursor:pointer}
+.check input{width:20px;height:20px;accent-color:var(--haulmer-blue)}
+.tabs{display:inline-flex;gap:4px;border-bottom:1px solid var(--line);width:100%}
+.tabs button{border:0;background:none;font:500 15px var(--font-body);color:var(--fg-muted);padding:12px 16px;border-bottom:2px solid transparent;margin-bottom:-1px;cursor:pointer}
+.tabs button[aria-selected="true"]{color:var(--fg);border-color:var(--haulmer-blue)}
+.alert{display:flex;gap:14px;padding:var(--s2) var(--s3);border-radius:16px;font-size:15px;align-items:flex-start}
+.alert b{display:block;font-family:var(--font-display);font-size:18px;font-weight:600}
+.alert--info{background:var(--haulmer-blue-10);color:#12129A}
+.alert--dark{background:var(--haulmer-black);color:#fff}
+.alert--neutral{background:var(--bg-soft);color:var(--fg)}
+.kpi b{font-family:var(--font-display);font-weight:700;font-size:48px;line-height:1;display:block;margin:8px 0}
+.kpi .delta{display:inline-flex;align-items:center;gap:4px;font-size:13px;font-weight:500;color:var(--accent)}
+table.tbl{width:100%;border-collapse:collapse;font-size:14px;min-width:560px}
+.tbl th{text-align:left;font-weight:500;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--fg-muted);padding:12px 16px;border-bottom:1px solid var(--line)}
+.tbl td{padding:14px 16px;border-bottom:1px solid var(--line)}
+.tbl tr:last-child td{border-bottom:0}
+.avatar{width:40px;height:40px;border-radius:50%;background:var(--haulmer-blue);color:#fff;display:inline-flex;align-items:center;justify-content:center;font:600 16px var(--font-display)}
+.progress{height:8px;background:var(--line);border-radius:var(--radius-pill);overflow:hidden}
+.progress i{display:block;height:100%;background:var(--haulmer-blue);border-radius:inherit}
+.icon{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.icon-tile{display:flex;flex-direction:column;align-items:center;gap:10px;padding:var(--s3) 8px;border-radius:16px;background:var(--bg-soft);font-size:12px;color:var(--fg-muted)}
+.icon-tile .icon{color:var(--fg);width:28px;height:28px}
+
+/* Patterns */
+.pat{border-radius:var(--radius-card);padding:var(--s6) var(--s4);min-height:300px;display:flex;flex-direction:column;justify-content:center;gap:var(--s3);position:relative;overflow:hidden}
+.pat h3{font-weight:700;font-size:clamp(2rem,3.5vw,2.75rem)}
+.pat .legal{font-size:11px;letter-spacing:.04em;text-transform:uppercase;opacity:.6;margin-top:auto}
+.p-white{background:#fff;color:#1A1A1A;border:1px solid var(--line)}
+.p-blue{background:var(--haulmer-blue);color:#fff}
+.p-black{background:var(--haulmer-gray-900);color:#fff}
+.p-photo{background:linear-gradient(135deg,#2A2A2E,#0A0A0A);color:#fff}
+.p-photo::after{content:"FOTO DE PRODUCTO EN USO";position:absolute;right:20px;bottom:20px;font-size:11px;letter-spacing:.08em;opacity:.35}
+.do,.dont{border-radius:var(--radius-card);padding:var(--s3);border:1px solid var(--line)}
+.do h4,.dont h4{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.do h4{color:var(--haulmer-blue)}
+.do ul,.dont ul{padding-left:18px;font-size:14px;color:var(--fg-muted);display:grid;gap:6px}
+.chart text{font-family:var(--font-body)}
+.copy-toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 24px);transform:translateX(-50%) translateY(20px);background:var(--haulmer-black);color:#fff;padding:12px 20px;border-radius:var(--radius-pill);font-size:14px;opacity:0;pointer-events:none;transition:all .2s;z-index:50}
+.copy-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+pre.code{background:var(--haulmer-gray-900);color:#E5E5E7;border-radius:16px;padding:var(--s3);overflow-x:auto;font-size:13px;line-height:1.6}
+pre.code .k{color:#A3A3FF}
+footer{border-top:1px solid var(--line);margin-top:var(--s12);padding:var(--s4) 0;font-size:12px;color:var(--fg-muted)}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="#top">Haulmer <small>DS v0.1</small></a>
+    <div class="spacer"></div>
+    <div class="seg mode-label" role="group" aria-label="Modo de estilo">
+      <button data-mode="tuu" aria-pressed="true">TUU</button>
+      <button data-mode="sobrio" aria-pressed="false">Sobrio</button>
+    </div>
+    <div class="seg" role="group" aria-label="Tema">
+      <button data-theme="light" aria-pressed="false" title="Claro">☀︎</button>
+      <button data-theme="dark" aria-pressed="false" title="Oscuro">☾</button>
+    </div>
+  </div>
+</header>
+
+<div class="layout" id="top">
+<nav class="side" aria-label="Secciones">
+  <p>Fundamentos</p>
+  <a href="#intro">Introducción</a>
+  <a href="#marcas">Marcas</a>
+  <a href="#modos">Modos de estilo</a>
+  <a href="#color">Color</a>
+  <a href="#tipografia">Tipografía</a>
+  <a href="#espaciado">Espaciado y forma</a>
+  <a href="#iconos">Iconografía</a>
+  <p>Componentes</p>
+  <a href="#botones">Botones</a>
+  <a href="#badges">Badges</a>
+  <a href="#formularios">Formularios</a>
+  <a href="#feedback">Feedback</a>
+  <a href="#datos">Datos</a>
+  <p>Guías</p>
+  <a href="#patrones">Patrones de composición</a>
+  <a href="#graficos">Gráficos</a>
+  <a href="#voz">Voz y copy</a>
+  <a href="#tokens">Tokens CSS</a>
+  <a href="#checklist">Checklist</a>
+</nav>
+
+<main>
+<!-- HERO -->
+<section class="hero" id="intro">
+  <span class="eyebrow">Design System</span>
+  <h1>Diseñar es así<br>de <span>simple</span>.</h1>
+  <p class="lead">El sistema visual del ecosistema Haulmer: una sola base para Haulmer, TUU y AndCo. Tokens, componentes y patrones para que todo se vea de la misma familia.</p>
+  <div class="hero-meta">
+    <div><b>3</b><span>Marcas</span></div>
+    <div><b>2</b><span>Modos de estilo</span></div>
+    <div><b>2</b><span>Familias tipográficas</span></div>
+    <div><b>8px</b><span>Unidad base</span></div>
+  </div>
+  <div class="note">
+    <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+    <span>Versión 0.1 aproximada. Los hex de color deben confirmarse con el equipo de marca antes de producción, y los logotipos se muestran como placeholders tipográficos.</span>
+  </div>
+</section>
+
+<!-- MARCAS -->
+<section class="block" id="marcas">
+  <span class="eyebrow">Arquitectura de marca</span>
+  <h2>Una familia. <span class="accent">Tres voces.</span></h2>
+  <p class="lead">Haulmer es la marca paraguas. TUU y AndCo. son sub-marcas que pueden mostrar su respaldo con una línea de endoso.</p>
+  <div class="grid g3" style="margin-top:var(--s6)">
+    <div class="brandcard" style="background:var(--haulmer-gray-900);color:#fff">
+      <div><div class="wm">Haulmer</div><div class="endorse">Marca paraguas</div></div>
+      <p>Institucional, ejecutiva. Lidera en modo sobrio.</p>
+    </div>
+    <div class="brandcard" style="background:var(--haulmer-blue);color:#fff">
+      <div>
+        <div class="wm">
+          <!-- placeholder: reemplazar por asset oficial -->
+          <svg viewBox="0 0 100 100" width="52" height="52" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="5"/><circle cx="35" cy="42" r="4.5" fill="currentColor"/><circle cx="65" cy="42" r="4.5" fill="currentColor"/><path d="M 32 58 Q 50 72 68 58" stroke="currentColor" stroke-width="5" stroke-linecap="round" fill="none"/></svg>
+          TUU
+        </div>
+        <div class="endorse">por Haulmer</div>
+      </div>
+      <p>Optimista, cercana, funcional. Lidera en modo TUU.</p>
+    </div>
+    <div class="brandcard" style="background:var(--haulmer-gray-50);color:#1A1A1A">
+      <div><div class="wm">AndCo.</div><div class="endorse">Una marca Haulmer</div></div>
+      <p>Comparte la base del sistema con su propio nombre.</p>
+    </div>
+  </div>
+  <p class="muted" style="font-size:13px;margin-top:var(--s2)">Endoso: DS Regular al 30–40% de la altura del wordmark. Variantes: "por Haulmer", "Una marca Haulmer", "Ecosistema Haulmer".</p>
+</section>
+
+<!-- MODOS -->
+<section class="block" id="modos">
+  <span class="eyebrow">Modos</span>
+  <h2>Dos modos, <span class="accent">un sistema</span>.</h2>
+  <p class="lead">El modo TUU es el predeterminado. El modo sobrio se usa para directorio, reportes y comunicación regulatoria. Prueba el selector arriba a la derecha.</p>
+  <div class="grid g2" style="margin-top:var(--s6)">
+    <div class="pat p-white">
+      <span class="badge" style="color:var(--haulmer-blue);align-self:flex-start">Modo TUU · predeterminado</span>
+      <h3>Vender es así de <span style="color:var(--haulmer-blue)">simple</span></h3>
+      <p style="color:#6B7280">Azul saturado dominante. Blanco, azul y negro se alternan. Marketing, merchants, producto, redes.</p>
+      <a class="btn" style="background:#1A1A1A;color:#fff;align-self:flex-start" href="#modos">Ordena tu máquina</a>
+    </div>
+    <div class="pat p-black">
+      <span class="badge" style="color:#fff;align-self:flex-start">Modo sobrio</span>
+      <h3>Resultados Q3 2026</h3>
+      <p style="color:#9CA3AF">Negro y carbón dominantes. Azul puntual o ausente. Directorio, reportes, documentos institucionales.</p>
+      <a class="btn btn--ghost" style="color:#fff;border-color:#fff;align-self:flex-start" href="#modos">Ver reporte</a>
+    </div>
+  </div>
+</section>
+
+<!-- COLOR -->
+<section class="block" id="color">
+  <span class="eyebrow">Color</span>
+  <h2>Pocos colores. <span class="accent">Mucho carácter.</span></h2>
+  <p class="lead">Un azul protagonista, una escala de grises y blanco como respiro. Toca cualquier muestra para copiar su hex.</p>
+
+  <h3 class="sub">Primarios</h3>
+  <div class="grid g4" id="sw-primary"></div>
+  <h3 class="sub">Neutros</h3>
+  <div class="grid g4" id="sw-neutral"></div>
+  <h3 class="sub">Tintes de azul <span class="muted" style="font-size:15px;font-family:var(--font-body);font-weight:400">· solo para datos y estados</span></h3>
+  <div class="grid g4" id="sw-tints"></div>
+
+  <h3 class="sub">Proporción recomendada</h3>
+  <div class="card">
+    <p class="muted" style="font-size:14px;margin-bottom:12px">Modo TUU</p>
+    <div style="display:flex;height:48px;border-radius:12px;overflow:hidden">
+      <div style="flex:60;background:#fff;border:1px solid var(--line);border-radius:12px 0 0 12px"></div>
+      <div style="flex:25;background:var(--haulmer-blue)"></div>
+      <div style="flex:10;background:var(--haulmer-black)"></div>
+      <div style="flex:5;background:var(--haulmer-gray-50)"></div>
+    </div>
+    <p class="muted" style="font-size:14px;margin:24px 0 12px">Modo sobrio</p>
+    <div style="display:flex;height:48px;border-radius:12px;overflow:hidden">
+      <div style="flex:55;background:var(--haulmer-gray-900)"></div>
+      <div style="flex:35;background:#fff;border:1px solid var(--line)"></div>
+      <div style="flex:7;background:var(--haulmer-gray-500)"></div>
+      <div style="flex:3;background:var(--haulmer-blue)"></div>
+    </div>
+  </div>
+
+  <h3 class="sub">Combinaciones accesibles</h3>
+  <div class="grid g4">
+    <div class="card" style="background:#fff;color:#1A1A1A;border-color:var(--haulmer-gray-200)"><h4>Aa Negro / Blanco</h4><p style="font-size:13px;opacity:.7">Contraste 17.4:1 · AAA</p></div>
+    <div class="card" style="background:var(--haulmer-blue);color:#fff;border-color:transparent"><h4>Aa Blanco / Azul</h4><p style="font-size:13px;opacity:.8">Contraste 8.7:1 · AAA</p></div>
+    <div class="card" style="background:#fff;color:var(--haulmer-blue);border-color:var(--haulmer-gray-200)"><h4>Aa Azul / Blanco</h4><p style="font-size:13px;opacity:.8">Contraste 8.7:1 · AAA</p></div>
+    <div class="card" style="background:#fff;color:#9CA3AF;border-color:var(--haulmer-gray-200)"><h4>Aa Gris 500 / Blanco</h4><p style="font-size:13px">2.5:1 · solo decorativo o ≥24px</p></div>
+  </div>
+</section>
+
+<!-- TIPOGRAFIA -->
+<section class="block" id="tipografia">
+  <span class="eyebrow">Tipografía</span>
+  <h2>Rajdhani para decir. <span class="accent">DM Sans</span> para explicar.</h2>
+  <p class="lead">Rajdhani da carácter técnico y condensado a los títulos. DM Sans mantiene el cuerpo legible y cercano. No se reproduce la tipografía propia de los logotipos.</p>
+  <div class="grid g2" style="margin-top:var(--s6)">
+    <div class="card soft"><p class="muted" style="font-size:13px">Display · Rajdhani 500/600/700</p><div style="font-family:var(--font-display);font-weight:700;font-size:96px;line-height:1">Aa</div><p style="font-family:var(--font-display);font-size:20px;font-weight:600;letter-spacing:.02em">ABCDEFGHIJKLMNÑOPQRSTUVWXYZ<br>0123456789 $%&amp;</p></div>
+    <div class="card soft"><p class="muted" style="font-size:13px">Texto · DM Sans 400/500/700</p><div style="font-family:var(--font-body);font-weight:500;font-size:96px;line-height:1">Aa</div><p style="font-size:18px">abcdefghijklmnñopqrstuvwxyz<br>0123456789 ¿?¡! áéíóú</p></div>
+  </div>
+  <div style="margin-top:var(--s4)" id="typescale"></div>
+</section>
+
+<!-- ESPACIADO -->
+<section class="block" id="espaciado">
+  <span class="eyebrow">Espaciado y forma</span>
+  <h2>El espacio <span class="accent">también comunica</span>.</h2>
+  <p class="lead">Todo se mide en múltiplos de 8px. Ante la duda, más aire. Las esquinas son generosas, nunca filosas.</p>
+  <div class="grid g2" style="margin-top:var(--s6);align-items:start">
+    <div>
+      <h3 style="margin-bottom:var(--s2)">Escala de espaciado</h3>
+      <div id="spacing"></div>
+    </div>
+    <div>
+      <h3 style="margin-bottom:var(--s2)">Radios</h3>
+      <div class="grid" style="grid-template-columns:repeat(2,1fr)">
+        <div><div class="radius-demo" style="border-radius:8px">8px</div><p class="muted" style="font-size:13px;margin-top:8px"><code>--radius-sm</code> · chips, tooltips</p></div>
+        <div><div class="radius-demo" style="border-radius:12px">12px</div><p class="muted" style="font-size:13px;margin-top:8px"><code>--radius-btn</code> · inputs, CTA rectangular</p></div>
+        <div><div class="radius-demo" style="border-radius:20px">20px</div><p class="muted" style="font-size:13px;margin-top:8px"><code>--radius-card</code> · cards (16–24)</p></div>
+        <div><div class="radius-demo" style="border-radius:9999px">Pill</div><p class="muted" style="font-size:13px;margin-top:8px"><code>--radius-pill</code> · botones, badges</p></div>
+      </div>
+      <h3 style="margin:var(--s4) 0 var(--s2)">Elevación</h3>
+      <div class="grid g3">
+        <div class="shadow-demo" style="box-shadow:var(--shadow-1)">shadow-1</div>
+        <div class="shadow-demo" style="box-shadow:var(--shadow-2)">shadow-2</div>
+        <div class="shadow-demo" style="box-shadow:var(--shadow-3)">shadow-3</div>
+      </div>
+      <p class="muted" style="font-size:13px;margin-top:12px">Preferir bordes y fondos suaves antes que sombras. Sombra solo para elementos flotantes.</p>
+    </div>
+  </div>
+  <h3 class="sub">Grilla</h3>
+  <div class="card soft">
+    <div style="display:grid;grid-template-columns:repeat(12,1fr);gap:8px">
+      <div style="height:64px;background:rgba(30,30,255,.14);border-radius:6px"></div><div style="height:64px;background:rgba(30,30,255,.14);border-radius:6px"></div><div style="height:64px;background:rgba(30,30,255,.14);border-radius:6px"></div><div style="height:64px;background:rgba(30,30,255,.14);border-radius:6px"></div><div style="height:64px;background:rgba(30,30,255,.14);border-radius:6px"></div><div style="height:64px;background:rgba(30,30,255,.14);border-radius:6px"></div><div style="height:64px;background:rgba(30,30,255,.14);border-radius:6px"></div><div style="height:64px;background:rgba(30,30,255,.14);border-radius:6px"></div><div style="height:64px;background:rgba(30,30,255,.14);border-radius:6px"></div><div style="height:64px;background:rgba(30,30,255,.14);border-radius:6px"></div><div style="height:64px;background:rgba(30,30,255,.14);border-radius:6px"></div><div style="height:64px;background:rgba(30,30,255,.14);border-radius:6px"></div>
+    </div>
+    <p class="muted" style="font-size:13px;margin-top:12px">12 columnas · contenedor máx. 1200px · gutter 24px desktop, 16px mobile · márgenes ≥ 24px.</p>
+  </div>
+</section>
+
+<!-- ICONOS -->
+<section class="block" id="iconos">
+  <span class="eyebrow">Iconografía</span>
+  <h2>Líneas <span class="accent">limpias</span>.</h2>
+  <p class="lead">Íconos de línea estilo Lucide, trazo 1.5–2px, terminaciones y uniones redondeadas. Tamaños 16 / 20 / 24 / 32.</p>
+  <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(110px,1fr));margin-top:var(--s6)" id="icons"></div>
+</section>
+
+<!-- BOTONES -->
+<section class="block" id="botones">
+  <span class="eyebrow">Componentes</span>
+  <h2>Botones</h2>
+  <p class="lead">El CTA principal es una píldora oscura con texto blanco y verbo de acción. Un solo CTA primario por vista.</p>
+  <div class="card" style="margin-top:var(--s6)">
+    <p class="muted" style="font-size:13px;margin-bottom:var(--s2)">Jerarquía</p>
+    <div class="row">
+      <button class="btn">Ordena tu máquina</button>
+      <button class="btn btn--blue">Ver disponibilidad</button>
+      <button class="btn btn--ghost">Conoce más</button>
+      <button class="btn btn--text">Ver detalle →</button>
+    </div>
+    <p class="muted" style="font-size:13px;margin:var(--s4) 0 var(--s2)">Tamaños y forma</p>
+    <div class="row">
+      <button class="btn btn--lg">Grande</button>
+      <button class="btn">Mediano</button>
+      <button class="btn btn--sm">Pequeño</button>
+      <button class="btn btn--rect">Rectangular 12px</button>
+      <button class="btn btn--blue"><svg class="icon" style="width:18px;height:18px" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>Con ícono</button>
+      <button class="btn" disabled>Deshabilitado</button>
+    </div>
+  </div>
+  <div class="grid g2" style="margin-top:var(--s3)">
+    <div class="do"><h4>✓ Hacer</h4><ul><li>Verbos de acción concretos: "Ordena", "Activa", "Descarga".</li><li>Píldora completa para CTA de marketing; 12px en interfaces densas.</li></ul></div>
+    <div class="dont"><h4>✕ Evitar</h4><ul><li>"Click aquí", "Enviar", "OK".</li><li>Dos CTA primarios compitiendo en la misma vista.</li></ul></div>
+  </div>
+</section>
+
+<!-- BADGES -->
+<section class="block" id="badges">
+  <h2>Badges</h2>
+  <p class="lead">La píldora con borde fino sobre el título es una firma del sistema. También sirve para estados.</p>
+  <div class="card" style="margin-top:var(--s6)">
+    <div class="row">
+      <span class="badge" style="color:var(--haulmer-blue)">Listo para usar</span>
+      <span class="badge">Compra segura</span>
+      <span class="badge badge--solid">Nuevo</span>
+      <span class="badge badge--soft"><span class="dot"></span>Activo</span>
+      <span class="badge badge--dark">Pro</span>
+      <span class="badge" style="color:var(--fg-muted)"><span class="dot"></span>Pendiente</span>
+    </div>
+  </div>
+</section>
+
+<!-- FORMULARIOS -->
+<section class="block" id="formularios">
+  <h2>Formularios</h2>
+  <p class="lead">Campos amplios, etiqueta siempre visible y foco azul. El error se marca sin depender del rojo: borde punteado y mensaje.</p>
+  <div class="grid g2" style="margin-top:var(--s6)">
+    <div class="card" style="display:grid;gap:var(--s3)">
+      <div class="field"><label for="f1">Nombre del comercio</label><input class="input" id="f1" placeholder="Ej. Almacén Don Pepe"></div>
+      <div class="field"><label for="f2">RUT</label><input class="input" id="f2" value="12.345.678-K"><span class="hint">Lo usamos para emitir tus boletas.</span></div>
+      <div class="field"><label for="f3">Correo</label><input class="input err" id="f3" value="pepe@"><span class="hint" style="color:var(--fg)">⚠ Revisa el formato del correo.</span></div>
+      <div class="field"><label for="f4">Plan</label>
+        <select class="input" id="f4"><option>TUU Básico</option><option>TUU Pro</option></select></div>
+    </div>
+    <div class="card" style="display:grid;gap:var(--s3);align-content:start">
+      <label class="check"><span class="switch"><input type="checkbox" checked><span></span></span>Propina activada</label>
+      <label class="check"><span class="switch"><input type="checkbox"><span></span></span>Impresión automática</label>
+      <label class="check"><input type="checkbox" checked>Acepto los términos</label>
+      <label class="check"><input type="radio" name="r" checked>Boleta</label>
+      <label class="check"><input type="radio" name="r">Factura</label>
+      <div class="tabs" role="tablist">
+        <button role="tab" aria-selected="true">Ventas</button><button role="tab" aria-selected="false">Productos</button><button role="tab" aria-selected="false">Clientes</button>
+      </div>
+      <button class="btn" style="justify-self:start">Guardar cambios</button>
+    </div>
+  </div>
+</section>
+
+<!-- FEEDBACK -->
+<section class="block" id="feedback">
+  <h2>Feedback</h2>
+  <p class="lead">Mensajes cortos y declarativos. El color acompaña, nunca es la única señal.</p>
+  <div class="grid" style="margin-top:var(--s6);gap:var(--s2)">
+    <div class="alert alert--info"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div><b>Tu máquina va en camino.</b>Llega en 48 horas hábiles.</div></div>
+    <div class="alert alert--dark"><svg class="icon" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0zM12 9v4M12 17h.01"/></svg><div><b>Sin conexión.</b>Las ventas se guardan y se sincronizan después.</div></div>
+    <div class="alert alert--neutral"><svg class="icon" viewBox="0 0 24 24"><path d="M22 11.1V12a10 10 0 1 1-5.9-9.1"/><path d="M22 4 12 14l-3-3"/></svg><div><b>Todo listo.</b>Tu primera venta ya está registrada.</div></div>
+  </div>
+  <div class="grid g3" style="margin-top:var(--s3)">
+    <div class="card"><p style="font-size:14px;font-weight:500">Configuración de cuenta</p><div class="progress" style="margin:12px 0 8px"><i style="width:72%"></i></div><p class="muted" style="font-size:13px">3 de 4 pasos</p></div>
+    <div class="card" style="display:flex;gap:14px;align-items:center"><span class="avatar">MP</span><div><p style="font-weight:500">María Paz</p><p class="muted" style="font-size:13px">Product Owner</p></div></div>
+    <div class="card" style="display:flex;gap:14px;align-items:center"><span class="avatar" style="background:var(--haulmer-black)">SF</span><div><p style="font-weight:500">San Feng</p><p class="muted" style="font-size:13px">Diseño</p></div></div>
+  </div>
+</section>
+
+<!-- DATOS -->
+<section class="block" id="datos">
+  <h2>Datos</h2>
+  <p class="lead">Cifras en Rajdhani grande, contexto en DS. Tablas limpias, sin bordes verticales.</p>
+  <div class="grid g4" style="margin-top:var(--s6)">
+    <div class="card kpi"><span class="muted" style="font-size:13px">Ventas hoy</span><b>$1,2M</b><span class="delta">↑ 12% vs ayer</span></div>
+    <div class="card kpi"><span class="muted" style="font-size:13px">Transacciones</span><b>384</b><span class="delta">↑ 4%</span></div>
+    <div class="card kpi"><span class="muted" style="font-size:13px">Ticket promedio</span><b>$3.125</b><span class="delta" style="color:var(--fg-muted)">→ estable</span></div>
+    <div class="card kpi" style="background:var(--haulmer-blue);color:#fff;border-color:transparent"><span style="font-size:13px;opacity:.8">Meta mensual</span><b>86%</b><span style="font-size:13px;opacity:.8">Quedan 9 días</span></div>
+  </div>
+  <div class="card scroll-x" style="margin-top:var(--s3);padding:var(--s2)">
+    <table class="tbl">
+      <thead><tr><th>Producto</th><th>Categoría</th><th>Stock</th><th>Estado</th><th style="text-align:right">Precio</th></tr></thead>
+      <tbody>
+        <tr><td><b>Café en grano 1kg</b></td><td class="muted">Abarrotes</td><td>42</td><td><span class="badge badge--soft"><span class="dot"></span>Disponible</span></td><td style="text-align:right">$12.990</td></tr>
+        <tr><td><b>Leche entera 1L</b></td><td class="muted">Lácteos</td><td>6</td><td><span class="badge" style="color:var(--fg)"><span class="dot"></span>Stock bajo</span></td><td style="text-align:right">$1.190</td></tr>
+        <tr><td><b>Pan amasado</b></td><td class="muted">Panadería</td><td>0</td><td><span class="badge badge--dark">Agotado</span></td><td style="text-align:right">$2.400</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- PATRONES -->
+<section class="block" id="patrones">
+  <span class="eyebrow">Guías</span>
+  <h2>Patrones de <span class="accent">composición</span>.</h2>
+  <p class="lead">Los movimientos recurrentes de las piezas TUU y Haulmer. En una serie, los fondos se alternan: blanco → azul → negro → foto.</p>
+  <div class="grid g2" style="margin-top:var(--s6)">
+    <div class="pat p-white">
+      <span class="badge" style="color:var(--haulmer-blue);align-self:flex-start">Listo para usar</span>
+      <h3>Todo <span style="color:var(--haulmer-blue)">fluye</span>.</h3>
+      <a class="btn" style="background:#1A1A1A;color:#fff;align-self:flex-start" href="#patrones">Ordena tu máquina</a>
+      <span class="legal">01 · Blanco · palabra única en azul</span>
+    </div>
+    <div class="pat p-blue">
+      <span class="badge" style="color:#fff;align-self:flex-start">Compra segura</span>
+      <h3>Cobra en <span style="color:#1A1A1A">segundos</span>.</h3>
+      <a class="btn" style="background:#1A1A1A;color:#fff;align-self:flex-start" href="#patrones">Ver disponibilidad</a>
+      <span class="legal">02 · Azul · acento en negro</span>
+    </div>
+    <div class="pat p-black">
+      <span class="badge" style="color:#fff;align-self:flex-start">Nuestra misión</span>
+      <h3>Es <span style="color:var(--haulmer-blue-70)">simple</span>.</h3>
+      <p style="color:#9CA3AF;max-width:360px">Herramientas que hacen crecer a los negocios de Chile.</p>
+      <span class="legal">03 · Negro · respiro amplio</span>
+    </div>
+    <div class="pat p-photo">
+      <span class="badge" style="color:#fff;align-self:flex-start">Oferta</span>
+      <h3>Tal como <span style="color:var(--haulmer-blue-70)">es</span>.</h3>
+      <span class="legal">Oferta válida del DD/MM al DD/MM. Sujeto a disponibilidad de stock.</span>
+    </div>
+  </div>
+  <div class="grid g3" style="margin-top:var(--s3)">
+    <div class="card soft"><h4>Palabra única en color</h4><p class="muted" style="font-size:14px;margin-top:8px">Solo una palabra clave del H1 toma el color de marca.</p></div>
+    <div class="card soft"><h4>Badge sobre el título</h4><p class="muted" style="font-size:14px;margin-top:8px">Píldora con borde fino que contextualiza la pieza.</p></div>
+    <div class="card soft"><h4>30–40% de silencio</h4><p class="muted" style="font-size:14px;margin-top:8px">El producto respira. Nunca abarrotar el lienzo.</p></div>
+  </div>
+</section>
+
+<!-- GRAFICOS -->
+<section class="block" id="graficos">
+  <h2>Gráficos</h2>
+  <p class="lead">Azul para el protagonista, gris para el contexto. Sin arcoíris: si se necesita más, negro y tintes de azul.</p>
+  <div class="grid g2" style="margin-top:var(--s6)">
+    <div class="card">
+      <h4 style="margin-bottom:var(--s2)">Ventas por mes</h4>
+      <div class="scroll-x">
+      <svg class="chart" viewBox="0 0 420 220" width="100%" role="img" aria-label="Gráfico de barras de ventas por mes">
+        <g stroke="var(--line)" stroke-width="1"><line x1="30" y1="20" x2="410" y2="20"/><line x1="30" y1="80" x2="410" y2="80"/><line x1="30" y1="140" x2="410" y2="140"/><line x1="30" y1="190" x2="410" y2="190"/></g>
+        <g fill="#9CA3AF" opacity=".55">
+          <rect x="45" y="120" width="34" height="70" rx="6"/><rect x="105" y="100" width="34" height="90" rx="6"/><rect x="165" y="110" width="34" height="80" rx="6"/><rect x="225" y="85" width="34" height="105" rx="6"/><rect x="285" y="70" width="34" height="120" rx="6"/>
+        </g>
+        <rect x="345" y="30" width="34" height="160" rx="6" fill="#1E1EFF"/>
+        <text x="362" y="22" text-anchor="middle" font-size="12" font-weight="500" fill="#1E1EFF">+33%</text>
+        <g font-size="12" fill="#9CA3AF" text-anchor="middle"><text x="62" y="208">May</text><text x="122" y="208">Jun</text><text x="182" y="208">Jul</text><text x="242" y="208">Ago</text><text x="302" y="208">Sep</text><text x="362" y="208">Oct</text></g>
+      </svg>
+      </div>
+    </div>
+    <div class="card">
+      <h4 style="margin-bottom:var(--s2)">Medios de pago</h4>
+      <div style="display:flex;gap:var(--s3);align-items:center;flex-wrap:wrap">
+        <svg viewBox="0 0 120 120" width="150" height="150" role="img" aria-label="Gráfico de dona">
+          <circle cx="60" cy="60" r="46" fill="none" stroke="#1E1EFF" stroke-width="18" stroke-dasharray="159 289" transform="rotate(-90 60 60)"/>
+          <circle cx="60" cy="60" r="46" fill="none" stroke="#5C5CFF" stroke-width="18" stroke-dasharray="72 289" stroke-dashoffset="-159" transform="rotate(-90 60 60)"/>
+          <circle cx="60" cy="60" r="46" fill="none" stroke="#A3A3FF" stroke-width="18" stroke-dasharray="43 289" stroke-dashoffset="-231" transform="rotate(-90 60 60)"/>
+          <circle cx="60" cy="60" r="46" fill="none" stroke="#1A1A1A" stroke-width="18" stroke-dasharray="15 289" stroke-dashoffset="-274" transform="rotate(-90 60 60)"/>
+        </svg>
+        <div style="display:grid;gap:8px;font-size:14px">
+          <span><b style="display:inline-block;width:10px;height:10px;border-radius:3px;background:#1E1EFF;margin-right:8px"></b>Débito · 55%</span>
+          <span><b style="display:inline-block;width:10px;height:10px;border-radius:3px;background:#5C5CFF;margin-right:8px"></b>Crédito · 25%</span>
+          <span><b style="display:inline-block;width:10px;height:10px;border-radius:3px;background:#A3A3FF;margin-right:8px"></b>Efectivo · 15%</span>
+          <span><b style="display:inline-block;width:10px;height:10px;border-radius:3px;background:#1A1A1A;margin-right:8px"></b>Otros · 5%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VOZ -->
+<section class="block" id="voz">
+  <h2>Voz y <span class="accent">copy</span>.</h2>
+  <p class="lead">Frases cortas, presente, declarativas. Entre tres y seis palabras para titulares.</p>
+  <div class="grid g2" style="margin-top:var(--s6)">
+    <div class="do"><h4>✓ Así sí</h4><ul><li>"Vender es así de simple."</li><li>"Todo fluye."</li><li>"Tu máquina va en camino."</li><li>"Ordena tu máquina."</li></ul></div>
+    <div class="dont"><h4>✕ Así no</h4><ul><li>"La solución integral y disruptiva para optimizar tus procesos de venta."</li><li>"¡¡Aprovecha esta increíble oportunidad única!!"</li><li>"Haz click aquí para continuar."</li></ul></div>
+  </div>
+</section>
+
+<!-- TOKENS -->
+<section class="block" id="tokens">
+  <h2>Tokens CSS</h2>
+  <p class="lead">Base lista para copiar en cualquier proyecto web.</p>
+  <div style="margin-top:var(--s4);position:relative">
+    <button class="btn btn--sm btn--blue" id="copyTokens" style="position:absolute;top:12px;right:12px">Copiar</button>
+<pre class="code" id="tokenCode"><span class="k">:root</span> {
+  <span class="k">/* Color */</span>
+  --haulmer-blue: #1E1EFF;
+  --haulmer-black: #1A1A1A;
+  --haulmer-gray-900: #0A0A0A;
+  --haulmer-gray-500: #9CA3AF;
+  --haulmer-gray-200: #E5E5E7;
+  --haulmer-gray-50: #F5F5F7;
+  --haulmer-white: #FFFFFF;
+  --haulmer-blue-70: #5C5CFF; <span class="k">/* datos */</span>
+  --haulmer-blue-40: #A3A3FF; <span class="k">/* datos */</span>
+
+  <span class="k">/* Tipografía */</span>
+  --font-display: 'Rajdhani', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+
+  <span class="k">/* Forma */</span>
+  --radius-pill: 9999px;
+  --radius-card: 20px;
+  --radius-btn: 12px;
+
+  <span class="k">/* Espaciado (base 8) */</span>
+  --s1: 8px; --s2: 16px; --s3: 24px; --s4: 32px;
+  --s6: 48px; --s8: 64px; --s12: 96px;
+}</pre>
+  </div>
+</section>
+
+<!-- CHECKLIST -->
+<section class="block" id="checklist">
+  <h2>Antes de <span class="accent">entregar</span>.</h2>
+  <div class="card" style="margin-top:var(--s4);display:grid;gap:14px">
+    <label class="check"><input type="checkbox">El modo es el correcto (TUU o sobrio).</label>
+    <label class="check"><input type="checkbox">Títulos en Rajdhani, cuerpo en DM Sans.</label>
+    <label class="check"><input type="checkbox">Al menos un patrón de composición aplicado.</label>
+    <label class="check"><input type="checkbox">Colores solo desde la tabla de tokens.</label>
+    <label class="check"><input type="checkbox">Hay aire de sobra; nada se ve apretado.</label>
+    <label class="check"><input type="checkbox">Logos marcados como placeholder si no son oficiales.</label>
+    <label class="check"><input type="checkbox">Copy corto y declarativo.</label>
+  </div>
+</section>
+
+<footer>Haulmer Design System v0.1 (aproximado) · Haulmer · TUU · AndCo. · Hex y logotipos por confirmar con el equipo de marca.</footer>
+</main>
+</div>
+
+<div class="copy-toast" id="toast">Copiado</div>
+
+<script>
+(function(){
+  const $=s=>document.querySelector(s);
+  const toast=$('#toast');
+  function showToast(t){toast.textContent=t;toast.classList.add('show');clearTimeout(showToast._t);showToast._t=setTimeout(()=>toast.classList.remove('show'),1400)}
+  async function copy(text,label){
+    try{await navigator.clipboard.writeText(text);showToast((label||text)+' copiado')}
+    catch(e){showToast(text)}
+  }
+
+  // Swatches
+  const sw=(name,token,hex,fg,use)=>`<button class="sw" data-hex="${hex}"><div class="chip" style="background:${hex};color:${fg}"><span class="ratio">${hex}</span></div><div class="meta"><b>${name}</b><code>${token}</code><div class="muted" style="font-size:12px;margin-top:4px">${use}</div></div></button>`;
+  $('#sw-primary').innerHTML=[
+    sw('Haulmer Blue','--haulmer-blue','#1E1EFF','#fff','Primario TUU, acentos, CTA secundario'),
+    sw('Haulmer Black','--haulmer-black','#1A1A1A','#fff','Texto, CTA principal, modo sobrio'),
+    sw('White','--haulmer-white','#FFFFFF','#1A1A1A','Fondo, texto sobre oscuro')
+  ].join('');
+  $('#sw-neutral').innerHTML=[
+    sw('Gray 900','--haulmer-gray-900','#0A0A0A','#fff','Fondos sobrios'),
+    sw('Gray 500','--haulmer-gray-500','#9CA3AF','#1A1A1A','Texto secundario, captions'),
+    sw('Gray 200','--haulmer-gray-200','#E5E5E7','#1A1A1A','Bordes, divisores'),
+    sw('Gray 50','--haulmer-gray-50','#F5F5F7','#1A1A1A','Fondos suaves, cards')
+  ].join('');
+  $('#sw-tints').innerHTML=[
+    sw('Blue 70','--haulmer-blue-70','#5C5CFF','#fff','Serie secundaria en gráficos'),
+    sw('Blue 40','--haulmer-blue-40','#A3A3FF','#1A1A1A','Serie terciaria, foco'),
+    sw('Blue 10','--haulmer-blue-10','#E8E8FF','#1A1A1A','Fondo de alerta info, badge soft')
+  ].join('');
+  document.querySelectorAll('.sw').forEach(b=>b.addEventListener('click',()=>copy(b.dataset.hex)));
+
+  // Type scale
+  const types=[
+    ['Display','Rajdhani 700 · 72–96px','font-family:var(--font-display);font-weight:700;font-size:clamp(3rem,7vw,5.5rem);line-height:1','Es simple.'],
+    ['H1','Rajdhani 700 · 48–72px','font-family:var(--font-display);font-weight:700;font-size:clamp(2.5rem,5vw,4rem);line-height:1.05','Vender es así de <span class="accent">simple</span>'],
+    ['H2','Rajdhani 600 · 32–48px','font-family:var(--font-display);font-weight:600;font-size:clamp(2rem,4vw,3rem);line-height:1.05','Todo fluye en tu caja'],
+    ['H3','Rajdhani 600 · 24–32px','font-family:var(--font-display);font-weight:600;font-size:28px;line-height:1.1','Resumen del día'],
+    ['Body L','DM Sans 400 · 18px / 1.5','font-size:18px','Activa tu negocio sin costos adicionales y empieza a vender hoy.'],
+    ['Body','DM Sans 400 · 16px / 1.5','font-size:16px','Tu máquina llega configurada y lista para cobrar con débito, crédito y QR.'],
+    ['Body Medium','DM Sans 500 · 16px','font-size:16px;font-weight:500','Énfasis dentro del texto'],
+    ['Button','DM Sans 500 · 14–16px','font-size:15px;font-weight:500','Ordena tu máquina'],
+    ['Caption / Legal','DM Sans 400 · 11–13px','font-size:12px;letter-spacing:.03em;text-transform:uppercase;color:var(--fg-muted)','Oferta válida del DD/MM al DD/MM.']
+  ];
+  $('#typescale').innerHTML=types.map(t=>`<div class="typerow"><div class="lbl"><b>${t[0]}</b>${t[1]}</div><div style="${t[2]}">${t[3]}</div></div>`).join('');
+
+  // Spacing
+  $('#spacing').innerHTML=[[1,8],[2,16],[3,24],[4,32],[6,48],[8,64],[12,96]].map(([k,v])=>`<div class="sp"><code>--s${k}</code><div class="bar" style="width:${v*2}px;max-width:60%"></div><span class="muted" style="font-size:13px">${v}px</span></div>`).join('');
+
+  // Icons
+  const ic={
+    'Tienda':'<path d="M3 9l1.5-5h15L21 9M3 9v11h18V9M3 9h18M9 20v-6h6v6"/>',
+    'Tarjeta':'<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/>',
+    'Carro':'<circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/>',
+    'Recibo':'<path d="M4 2v20l3-2 3 2 3-2 3 2 3-2V2l-3 2-3-2-3 2-3-2z"/><path d="M8 8h8M8 12h8M8 16h5"/>',
+    'Gráfico':'<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/>',
+    'Usuario':'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+    'Paquete':'<path d="M21 8l-9-5-9 5v8l9 5 9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/>',
+    'Ajustes':'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
+    'Búsqueda':'<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>',
+    'QR':'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3M21 14v7h-7M17 21v0"/>',
+    'Escudo':'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/>',
+    'Rayo':'<path d="M13 2L3 14h9l-1 8 10-12h-9z"/>'
+  };
+  $('#icons').innerHTML=Object.entries(ic).map(([n,p])=>`<div class="icon-tile"><svg class="icon" viewBox="0 0 24 24">${p}</svg>${n}</div>`).join('');
+
+  // Copy tokens
+  $('#copyTokens').addEventListener('click',()=>copy($('#tokenCode').innerText,'Tokens'));
+
+  // Tabs demo
+  document.querySelectorAll('.tabs').forEach(t=>t.addEventListener('click',e=>{
+    if(e.target.matches('button')){t.querySelectorAll('button').forEach(b=>b.setAttribute('aria-selected','false'));e.target.setAttribute('aria-selected','true')}
+  }));
+
+  // Mode & theme
+  const root=document.documentElement;
+  function read(k){try{return localStorage.getItem(k)}catch(e){return null}}
+  function save(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+  function setMode(m){root.dataset.mode=m;document.querySelectorAll('[data-mode]').forEach(b=>{if(b.tagName==='BUTTON')b.setAttribute('aria-pressed',b.dataset.mode===m)});save('hds-mode',m)}
+  function setTheme(t){if(t)root.dataset.theme=t;else delete root.dataset.theme;document.querySelectorAll('button[data-theme]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.theme===t));save('hds-theme',t||'')}
+  document.querySelectorAll('button[data-mode]').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode)));
+  document.querySelectorAll('button[data-theme]').forEach(b=>b.addEventListener('click',()=>setTheme(root.dataset.theme===b.dataset.theme?'':b.dataset.theme)));
+  setMode(read('hds-mode')||'tuu'); setTheme(read('hds-theme')||'');
+
+  // Scroll spy
+  const links=[...document.querySelectorAll('nav.side a')];
+  const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.toggle('on',l.getAttribute('href')==='#'+e.target.id))}}),{rootMargin:'-30% 0px -60% 0px'});
+  document.querySelectorAll('section[id]').forEach(s=>obs.observe(s));
+})();
+</script>
+</body>
+</html>

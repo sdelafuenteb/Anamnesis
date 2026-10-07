@@ -1,0 +1,774 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Retail Core · Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Rajdhani:wght@500;600;700&display=swap">
+
+<!-- ============================================================
+     1. TOKENS  (copia este bloque a tu proyecto)
+     ============================================================ -->
+<style id="ds-tokens">
+:root{
+  /* Marca */
+  --brand:#0028c9; --brand-2:#1a49ff; --brand-soft:#d9e2ff; --brand-softest:#f0f4ff; --on-brand:#ffffff;
+  /* Superficies y líneas */
+  --bg:#eef1f6; --stage:#ffffff; --surface:#f8fafc; --line:#e2e8f0; --line-2:#cbd5e1;
+  /* Texto */
+  --text:#0f172a; --text-2:#475569; --text-3:#64748b;
+  /* Semánticos: color + fondo suave */
+  --green:#16a34a;  --green-soft:#dcfce7;
+  --yellow:#d97706; --yellow-soft:#fef3c7;
+  --red:#dc2626;    --red-soft:#fee2e2;
+  --purple:#7c3aed; --purple-soft:#ede9fe;
+  --teal:#0d9488;   --teal-soft:#ccfbf1;
+  --gray-soft:#e2e8f0;
+  /* Texto sobre un color sólido (barras, hbar) */
+  --on-solid:#ffffff;
+  /* Tipografía */
+  --display:"Rajdhani","Arial Narrow",system-ui,sans-serif;
+  --body:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  /* Radios */
+  --r-xs:4px; --r-sm:6px; --r-md:8px; --r-lg:12px; --r-xl:14px; --r-pill:999px;
+  /* Espaciado (base 4) */
+  --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:24px; --sp-6:32px; --sp-7:56px; --sp-8:72px;
+  /* Sombras */
+  --shadow-stage:0 20px 60px rgb(15 23 42 / .12);
+  --shadow-pop:0 12px 30px rgb(15 23 42 / .18);
+  /* Movimiento */
+  --ease:cubic-bezier(.2,.7,.2,1); --t-fast:.2s; --t-base:.35s; --t-slow:.8s;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --brand:#809fff; --brand-2:#4d74ff; --brand-soft:#00166e; --brand-softest:#000c41; --on-brand:#000620;
+    --bg:#000310; --stage:#080d17; --surface:#0f172a; --line:#1e293b; --line-2:#334155;
+    --text:#f1f5f9; --text-2:#cbd5e1; --text-3:#94a3b8;
+    --green:#4ade80;  --green-soft:#14532d;
+    --yellow:#fbbf24; --yellow-soft:#713f12;
+    --red:#f87171;    --red-soft:#7f1d1d;
+    --purple:#a78bfa; --purple-soft:#3b0764;
+    --teal:#2dd4bf;   --teal-soft:#134e4a;
+    --gray-soft:#1e293b; --on-solid:#000620;
+    --shadow-stage:0 20px 60px rgb(0 0 0 / .5); --shadow-pop:0 12px 30px rgb(0 0 0 / .6);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --brand:#809fff; --brand-2:#4d74ff; --brand-soft:#00166e; --brand-softest:#000c41; --on-brand:#000620;
+  --bg:#000310; --stage:#080d17; --surface:#0f172a; --line:#1e293b; --line-2:#334155;
+  --text:#f1f5f9; --text-2:#cbd5e1; --text-3:#94a3b8;
+  --green:#4ade80;  --green-soft:#14532d;
+  --yellow:#fbbf24; --yellow-soft:#713f12;
+  --red:#f87171;    --red-soft:#7f1d1d;
+  --purple:#a78bfa; --purple-soft:#3b0764;
+  --teal:#2dd4bf;   --teal-soft:#134e4a;
+  --gray-soft:#1e293b; --on-solid:#000620;
+  --shadow-stage:0 20px 60px rgb(0 0 0 / .5); --shadow-pop:0 12px 30px rgb(0 0 0 / .6);
+}
+</style>
+
+<!-- ============================================================
+     2. COMPONENTES  (copia este bloque a tu proyecto)
+     ============================================================ -->
+<style id="ds-components">
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--body);line-height:1.5}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;line-height:1.05}
+h1{font-size:128px;font-weight:700}
+h2{font-size:44px;font-weight:700;letter-spacing:-.01em}
+h3{font-size:22px;font-weight:700}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--brand);margin:0 0 10px}
+.lede{font-size:18px;color:var(--text-2);max-width:62ch;line-height:1.5;margin:12px 0 0}
+.hint{font-size:12px;color:var(--text-3)}
+
+/* Layout helpers */
+.grid{display:grid;gap:var(--sp-4)}
+.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+
+/* Botones */
+.btn{font:inherit;font-weight:700;font-size:14px;border-radius:var(--r-pill);padding:9px 18px;border:1px solid var(--brand);background:var(--brand);color:var(--on-brand);cursor:pointer}
+.btn.ghost{background:transparent;color:var(--brand)}
+.btn:focus-visible,.seg button:focus-visible,.fstep:focus-visible{outline:3px solid var(--brand-2);outline-offset:2px}
+
+/* Segmented control */
+.seg{display:inline-flex;border:1px solid var(--line-2);border-radius:var(--r-pill);padding:3px;gap:2px;background:var(--surface)}
+.seg button{border:0;background:transparent;font:inherit;font-weight:700;font-size:13px;padding:7px 14px;border-radius:var(--r-pill);cursor:pointer;color:var(--text-2)}
+.seg button[aria-pressed="true"]{background:var(--brand);color:var(--on-brand)}
+.seg.sm button{font-size:11.5px;padding:5px 11px}
+
+/* Pills, status y chips */
+.pill{font-size:12px;padding:4px 10px;border-radius:var(--r-pill);background:var(--surface);border:1px solid var(--line);color:var(--text-2);white-space:nowrap}
+.status{font-size:12px;font-weight:700;padding:4px 10px;border-radius:var(--r-pill);white-space:nowrap}
+.s-ok{background:var(--green-soft);color:var(--green)}
+.s-cond{background:var(--red-soft);color:var(--red)}
+.s-q2{background:var(--gray-soft);color:var(--text-2)}
+.proy{display:inline-block;background:var(--yellow-soft);color:var(--yellow);border-radius:var(--r-pill);padding:1px 8px;letter-spacing:.06em;font-size:11px;font-weight:700}
+.chip{display:inline-block;font-size:11px;font-weight:700;padding:3px 8px;border-radius:var(--r-pill);margin:1px}
+
+/* Avatar e iconos */
+.avatar{width:44px;height:44px;border-radius:50%;background:var(--brand);color:var(--on-brand);display:grid;place-items:center;font-weight:700;font-size:14px}
+.ico{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;font-size:18px;margin-bottom:14px;font-weight:700}
+.c-brand{background:var(--brand-soft);color:var(--brand)}.c-green{background:var(--green-soft);color:var(--green)}
+.c-yellow{background:var(--yellow-soft);color:var(--yellow)}.c-red{background:var(--red-soft);color:var(--red)}
+.c-purple{background:var(--purple-soft);color:var(--purple)}.c-teal{background:var(--teal-soft);color:var(--teal)}
+.c-gray{background:var(--gray-soft);color:var(--text-2)}
+
+/* Cards */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:20px}
+.card h3{font-size:22px;font-weight:700;margin-bottom:6px}
+.card p{margin:0;color:var(--text-2);font-size:15px;line-height:1.45}
+.stat{padding:26px 22px;border-top:4px solid var(--brand)}
+.stat .v{font-family:var(--display);font-size:76px;font-weight:700;color:var(--brand);line-height:1;font-variant-numeric:tabular-nums}
+.stat .k{font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:13px;margin-top:10px}
+.stat .d{color:var(--text-3);font-size:14px;margin-top:6px}
+.stat.red{border-color:var(--red)}.stat.red .v{color:var(--red)}
+.stat.yellow{border-color:var(--yellow)}.stat.yellow .v{color:var(--yellow)}
+.phase{border-top:4px solid var(--brand)}
+.phase .n{font-family:var(--display);font-size:48px;font-weight:700;color:var(--brand);line-height:1}
+.callout{background:var(--brand);color:var(--on-brand);border-radius:var(--r-lg);padding:18px 22px;font-weight:700;font-size:18px}
+
+/* Riesgos / alertas con borde lateral */
+.risk{border-left:5px solid var(--red);background:var(--red-soft)}
+.risk.w{border-left-color:var(--yellow);background:var(--yellow-soft)}
+.risk.i{border-left-color:var(--brand);background:var(--brand-softest)}
+.risk h3{font-size:21px}
+.sev{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px;color:var(--text-2)}
+
+/* Tablas */
+.tbl{width:100%;border-collapse:collapse;font-size:16px}
+.tbl th{background:var(--brand);color:var(--on-brand);text-align:left;font-size:12px;letter-spacing:.12em;text-transform:uppercase;padding:12px 14px}
+.tbl th:first-child{border-top-left-radius:10px}.tbl th:last-child{border-top-right-radius:10px}
+.tbl td{padding:6px 14px;border-bottom:1px solid var(--line)}
+.tbl td:first-child{font-family:var(--display);font-weight:700;font-size:22px;color:var(--brand)}
+.matrix{width:100%;border-collapse:collapse;font-size:14px}
+.matrix th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);text-align:center;padding:6px;font-weight:700}
+.matrix th:first-child,.matrix td:first-child{text-align:left}
+.matrix td{padding:5px 6px;border-bottom:1px solid var(--line);text-align:center}
+.matrix td:first-child{font-weight:700}
+.matrix tr:hover td{background:var(--brand-softest)}
+.dot{display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--brand)}
+.dot.no{background:transparent;border:1.5px solid var(--line-2)}
+.hz{display:inline-flex;gap:3px}
+.hz i{width:30px;height:10px;border-radius:3px;background:var(--line)}
+.hz i.a{background:var(--green)}.hz i.s{background:var(--brand-2)}.hz i.d{background:var(--yellow)}
+
+/* Barras */
+.bars{display:grid;gap:7px}
+.brow{display:grid;grid-template-columns:170px 1fr 40px;gap:12px;align-items:center;font-size:14px}
+.brow .track{height:18px;background:var(--surface);border-radius:var(--r-xs);overflow:hidden}
+.brow .fill{height:100%;background:var(--brand);border-radius:var(--r-xs);transition:width var(--t-slow) var(--ease)}
+.brow b{font-variant-numeric:tabular-nums;text-align:right}
+.hbar{display:flex;height:56px;border-radius:var(--r-lg);overflow:hidden;font-weight:700;color:var(--on-solid)}
+.hbar div{display:flex;align-items:center;padding-left:16px;font-family:var(--display);font-size:24px;transition:flex-grow .6s ease}
+
+/* Funnel / selector de niveles */
+.funnel{display:flex;align-items:stretch;gap:10px}
+.fstep{flex:1;border-radius:var(--r-lg);padding:20px 16px;background:var(--surface);border:1px solid var(--line);cursor:pointer;text-align:left;font:inherit;color:inherit;transition:background var(--t-fast),border-color var(--t-fast)}
+.fstep .v{font-family:var(--display);font-size:52px;font-weight:700;color:var(--brand);line-height:1}
+.fstep .k{font-weight:700;margin-top:6px}
+.fstep.sel{background:var(--brand);border-color:var(--brand);color:var(--on-brand)}
+.fstep.sel .v{color:var(--on-brand)}
+.arrow{align-self:center;color:var(--text-3);font-size:22px}
+.fexplain{min-height:64px;font-size:18px;color:var(--text-2);line-height:1.5;border-left:4px solid var(--brand);padding:6px 0 6px 18px}
+
+/* Filas: pedidos y drill-down */
+.ask{display:grid;grid-template-columns:70px 1fr;gap:16px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.ask .n{font-family:var(--display);font-size:46px;font-weight:700;color:var(--brand);line-height:1}
+.ask h3{font-size:24px}.ask p{margin:4px 0 0;color:var(--text-2)}
+.drill{display:grid;gap:10px}
+.drow{display:grid;grid-template-columns:190px 1fr;gap:18px;align-items:start;padding:14px 18px;border-radius:var(--r-lg);border:1px solid var(--line);background:var(--surface);opacity:.35;transition:opacity var(--t-base),transform var(--t-base);transform:translateX(-8px)}
+.drow.show{opacity:1;transform:none}
+.drow .lv{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--brand);padding-top:3px}
+.drow .tx{font-size:17px;line-height:1.45}
+
+/* Leyendas y barras de dotación */
+.legend{display:flex;gap:18px;font-size:13px;color:var(--text-2);align-items:center;flex-wrap:wrap}
+.legend i{display:inline-block;width:14px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:6px}
+.staff{display:grid;gap:7px}
+.srow{display:grid;grid-template-columns:170px 1fr 70px;gap:14px;align-items:center}
+.srow .name{font-weight:700}
+.sbar{display:flex;gap:4px}
+.sbar i{width:30px;height:22px;border-radius:var(--r-sm);background:var(--brand)}
+.sbar i.gap{background:transparent;border:2px dashed var(--red)}
+.srow .delta{font-family:var(--display);font-size:26px;font-weight:700;color:var(--red);text-align:right}
+.srow .delta.zero{color:var(--green)}
+
+/* Gantt */
+.gantt{position:relative;display:grid;grid-template-columns:150px 1fr;row-gap:5px;font-size:13px}
+.gantt .months{grid-column:2;position:relative;height:22px;color:var(--text-3);font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-size:11px}
+.gantt .months span{position:absolute;top:0}
+.lane-label{font-weight:700;align-self:center;font-size:13px;line-height:1.1}
+.lane-label small{display:block;font-weight:500;color:var(--text-3);font-size:11px}
+.lane{position:relative;height:27px;background:var(--surface);border-radius:var(--r-sm)}
+.bar{position:absolute;top:3px;bottom:3px;border-radius:5px;color:var(--on-solid);font-weight:700;font-size:11.5px;display:flex;align-items:center;padding:0 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar.sig{background-image:repeating-linear-gradient(135deg,rgb(255 255 255 / .16) 0 6px,transparent 6px 12px)}
+.lowcap{position:absolute;top:22px;bottom:0;background:repeating-linear-gradient(135deg,rgb(100 116 139 / .16) 0 6px,transparent 6px 12px);pointer-events:none;border-radius:var(--r-xs)}
+.ms{position:absolute;top:22px;bottom:-26px;width:0;border-left:2px dashed var(--text-3);pointer-events:none}
+.ms b{position:absolute;bottom:0;transform:translateX(-50%);background:var(--text);color:var(--stage);padding:2px 7px;border-radius:var(--r-pill);font-size:11px;white-space:nowrap}
+.ms.cond b{background:var(--red);color:#fff}
+
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<!-- ============================================================
+     3. LAYOUT DE PRESENTACIÓN 1280×720  (opcional)
+     ============================================================ -->
+<style id="ds-layout">
+.stage{width:1280px;height:720px;background:var(--stage);border-radius:var(--r-xl);box-shadow:var(--shadow-stage);position:relative;overflow:hidden;transform-origin:center center;flex:none}
+.slide{position:absolute;inset:0;padding:56px 72px 64px 104px;display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:opacity var(--t-base) ease,transform var(--t-base) ease;transform:translateX(24px)}
+.slide.on{opacity:1;visibility:visible;transform:none}
+.slide.prev{transform:translateX(-24px)}
+.slide .body{flex:1;display:flex;flex-direction:column;justify-content:center;gap:24px;margin-top:28px;min-height:0}
+.slide .foot{position:absolute;left:104px;right:72px;bottom:22px;display:flex;justify-content:space-between;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3)}
+.rail{position:absolute;left:0;top:0;bottom:0;width:56px;border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:24px 0;z-index:3;background:var(--stage)}
+.rail .mark{font-family:var(--display);font-weight:700;font-size:15px;color:var(--brand);writing-mode:vertical-rl;transform:rotate(180deg);letter-spacing:.12em;text-transform:uppercase}
+.rail nav{display:flex;flex-direction:column;gap:6px}
+.rail button{width:32px;height:32px;border-radius:var(--r-md);border:0;background:transparent;color:var(--text-3);font-family:var(--display);font-weight:700;font-size:16px;cursor:pointer}
+.rail button[aria-current="true"]{background:var(--brand);color:var(--on-brand)}
+.rail .num{font-size:11px;color:var(--text-3);font-variant-numeric:tabular-nums}
+.slide.cover{justify-content:center}
+.cover h1{font-size:128px;color:var(--text)}
+.cover .kicker{font-family:var(--display);font-size:34px;font-weight:500;color:var(--text-2)}
+.orbs{position:absolute;right:-60px;top:40px;width:520px;height:640px;pointer-events:none}
+.orbs span{position:absolute;border-radius:50%;background:var(--brand-softest);border:1px solid var(--line)}
+.progress{width:220px;height:4px;background:var(--line);border-radius:var(--r-xs);overflow:hidden}
+.progress div{height:100%;background:var(--brand);width:0;transition:width var(--t-base)}
+</style>
+
+<!-- ============================================================
+     Chrome de esta página de documentación (no es parte del sistema)
+     ============================================================ -->
+<style>
+html{scroll-behavior:smooth;scroll-padding-top:24px}
+.ds{display:grid;grid-template-columns:240px minmax(0,1fr);min-height:100vh}
+.ds-side{position:sticky;top:0;align-self:start;height:100vh;overflow:auto;padding:28px 20px;border-right:1px solid var(--line);background:var(--stage);display:flex;flex-direction:column;gap:20px}
+.ds-brand{font-family:var(--display);font-weight:700;font-size:22px;line-height:1.05;color:var(--text)}
+.ds-brand small{display:block;font-size:13px;font-weight:500;letter-spacing:.12em;color:var(--brand);text-transform:uppercase;margin-bottom:4px}
+.ds-nav{display:grid;gap:2px}
+.ds-nav a{color:var(--text-2);text-decoration:none;font-size:14px;padding:6px 10px;border-radius:var(--r-md);border-left:3px solid transparent}
+.ds-nav a:hover{background:var(--brand-softest);color:var(--text)}
+.ds-nav a[aria-current="true"]{border-left-color:var(--brand);color:var(--brand);font-weight:700;background:var(--brand-softest)}
+.ds-nav .grp{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);font-weight:700;padding:12px 10px 4px}
+.ds-theme{margin-top:auto}
+.ds-main{padding:56px clamp(20px,5vw,72px) 96px;max-width:1120px;width:100%;min-width:0}
+.ds-hero{padding-bottom:40px;border-bottom:1px solid var(--line);margin-bottom:8px}
+.ds-hero h1{font-size:clamp(56px,9vw,104px)}
+.ds-sec{padding-top:56px}
+.ds-sec>h2{font-size:clamp(32px,4vw,40px)}
+.ds-sec>.lede{font-size:16px}
+.ds-sub{font-family:var(--display);font-weight:700;font-size:24px;margin:36px 0 12px}
+.ds-sub small{font-family:var(--body);font-weight:400;font-size:13px;color:var(--text-3);margin-left:8px}
+.demo{background:var(--stage);border:1px solid var(--line);border-radius:var(--r-lg);padding:24px;overflow-x:auto}
+.demo.pad0{padding:0}
+.demo>*+*{margin-top:16px}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.codebar{display:flex;gap:8px;justify-content:flex-end;margin:8px 0 0}
+.codebar button,.ds-theme button{font:inherit;font-size:12px;font-weight:700;border:1px solid var(--line-2);background:var(--stage);color:var(--text);border-radius:var(--r-pill);padding:5px 12px;cursor:pointer}
+.codebar button:hover,.ds-theme button:hover{border-color:var(--brand);color:var(--brand)}
+.codebar button:focus-visible,.ds-theme button:focus-visible,.ds-nav a:focus-visible{outline:3px solid var(--brand-2);outline-offset:2px}
+pre.code{max-width:100%;margin:8px 0 0;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px;overflow:auto;font:12.5px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--text);max-height:420px;white-space:pre}
+pre.code[hidden]{display:none}
+.sw-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:12px}
+.sw{border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;background:var(--stage)}
+.sw .c{height:64px;border-bottom:1px solid var(--line)}
+.sw .i{padding:8px 10px;font-size:12px;line-height:1.35}
+.sw .i b{display:block;font-size:13px}
+.sw .i code{color:var(--text-3)}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.pair .c{height:64px}
+.spec{display:grid;grid-template-columns:150px 1fr;gap:6px 24px;align-items:baseline;padding:14px 0;border-bottom:1px solid var(--line)}
+.spec:last-child{border-bottom:0}
+.spec .m{font-size:12px;color:var(--text-3);line-height:1.4}
+.spec .m b{display:block;color:var(--text);font-size:13px}
+.tokrow{display:grid;grid-template-columns:130px 1fr;gap:16px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-size:13px}
+.tokrow:last-child{border-bottom:0}
+.tokrow code{color:var(--text-2)}
+.box{background:var(--brand-soft);border-radius:var(--r-sm);height:20px}
+table.ct{width:100%;border-collapse:collapse;font-size:13.5px}
+table.ct th{text-align:left;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);padding:6px 10px;border-bottom:1px solid var(--line-2)}
+table.ct td{padding:8px 10px;border-bottom:1px solid var(--line)}
+table.ct .smp{display:inline-block;min-width:68px;text-align:center;padding:3px 10px;border-radius:var(--r-sm);font-weight:700}
+.ok{color:var(--green);font-weight:700}.warn{color:var(--yellow);font-weight:700}.bad{color:var(--red);font-weight:700}
+.rules{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.rules ul{margin:8px 0 0;padding-left:18px;color:var(--text-2);font-size:14.5px;line-height:1.55}
+.stagewrap{position:relative;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;background:var(--bg)}
+.stagewrap .stage{position:absolute;left:0;top:0;transform-origin:0 0;border-radius:0;box-shadow:none}
+@media (max-width:900px){
+  .ds{grid-template-columns:1fr}
+  .ds-side{position:sticky;height:auto;z-index:20;flex-direction:row;align-items:center;gap:12px;padding:10px 16px;border-right:0;border-bottom:1px solid var(--line);overflow-x:auto}
+  .ds-brand small{display:none}.ds-brand{white-space:nowrap;font-size:18px}
+  .ds-nav{display:flex;gap:4px}.ds-nav a{white-space:nowrap;border-left:0;border-bottom:3px solid transparent;border-radius:var(--r-sm)}
+  .ds-nav a[aria-current="true"]{border-bottom-color:var(--brand)}
+  .ds-nav .grp{display:none}.ds-theme{margin:0 0 0 auto}
+  .g3,.g4,.rules{grid-template-columns:1fr 1fr}
+  .spec{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .g2,.g3,.g4,.rules{grid-template-columns:1fr}
+  .brow{grid-template-columns:110px 1fr 32px}.srow{grid-template-columns:110px 1fr 50px}
+  .gantt{grid-template-columns:90px 1fr}.drow{grid-template-columns:1fr;gap:4px}
+  .funnel{flex-direction:column}.arrow{transform:rotate(90deg)}
+  .stat .v{font-size:56px}
+}
+</style>
+</head>
+<body>
+<div class="ds">
+  <aside class="ds-side">
+    <div class="ds-brand"><small>Haulmer</small>Retail Core<br>Design System</div>
+    <nav class="ds-nav" id="nav" aria-label="Secciones"></nav>
+    <div class="ds-theme"><button type="button" id="themeBtn" aria-label="Cambiar tema">Tema: auto</button></div>
+  </aside>
+
+  <main class="ds-main">
+    <header class="ds-hero" id="inicio">
+      <p class="eyebrow">Sistema de diseño · v1.0</p>
+      <h1>Retail Core</h1>
+      <p class="lede">Tokens, tipografía y componentes extraídos de la presentación del roadmap. Está pensado para usarlo como base: copia los bloques de CSS y los fragmentos de HTML de cada componente. Soporta tema claro y oscuro.</p>
+      <div class="row" style="margin-top:20px">
+        <button class="btn" type="button" data-copy="ds-tokens">Copiar tokens</button>
+        <button class="btn ghost" type="button" data-copy="ds-components">Copiar componentes</button>
+        <button class="btn ghost" type="button" data-copy="ds-layout">Copiar layout de slides</button>
+      </div>
+    </header>
+
+    <!-- PRINCIPIOS -->
+    <section class="ds-sec" id="principios" data-nav="Principios" data-grp="Fundamentos">
+      <p class="eyebrow">Fundamentos</p><h2>Principios</h2>
+      <p class="lede">Reglas que se repiten en toda la presentación. Si algo nuevo las respeta, se verá como parte del mismo sistema.</p>
+      <div class="grid g3" style="margin-top:20px">
+        <div class="card"><div class="ico c-brand">1</div><h3>Un solo azul de marca</h3><p>El color de marca guía la mirada: números clave, encabezados de tabla, estado activo. El resto es neutro; el color extra solo comunica estado.</p></div>
+        <div class="card"><div class="ico c-green">2</div><h3>Color con significado</h3><p>Verde es listo o ahora, azul es siguiente, amarillo es después, rojo es riesgo o brecha. Siempre acompañado de texto, nunca solo.</p></div>
+        <div class="card"><div class="ico c-purple">3</div><h3>Números grandes, texto liviano</h3><p>Rajdhani para cifras y títulos, DM Sans para leer. La jerarquía sale del tamaño y el peso, no de adornos.</p></div>
+      </div>
+    </section>
+
+    <!-- COLOR -->
+    <section class="ds-sec" id="color" data-nav="Color" data-grp="Fundamentos">
+      <p class="eyebrow">Fundamentos</p><h2>Color</h2>
+      <p class="lede">Todos los colores son variables CSS que cambian solas en modo oscuro. Los valores de abajo se leen en vivo del tema activo.</p>
+      <h3 class="ds-sub">Marca</h3>
+      <div class="sw-grid" data-sw="brand,brand-2,brand-soft,brand-softest,on-brand"></div>
+      <h3 class="ds-sub">Superficies y líneas</h3>
+      <div class="sw-grid" data-sw="bg,stage,surface,line,line-2,gray-soft"></div>
+      <h3 class="ds-sub">Texto</h3>
+      <div class="sw-grid" data-sw="text,text-2,text-3,on-solid"></div>
+      <h3 class="ds-sub">Semánticos<small>color sólido + fondo suave</small></h3>
+      <div class="sw-grid" data-pair="green,yellow,red,purple,teal"></div>
+      <h3 class="ds-sub">Cuándo usar cada uno</h3>
+      <div class="demo">
+        <table class="ct">
+          <thead><tr><th>Color</th><th>Significado</th><th>Ejemplo</th></tr></thead>
+          <tbody>
+            <tr><td><span class="smp c-brand">Brand</span></td><td>Énfasis, acción primaria, selección</td><td>Botón, número destacado, tab activo</td></tr>
+            <tr><td><span class="smp c-green">Green</span></td><td>Listo, formalizado, “Ahora”</td><td>Status OK, horizonte V0</td></tr>
+            <tr><td><span class="smp c-yellow">Yellow</span></td><td>Pendiente, “Después”, proyecto</td><td>Candidatas, búsquedas abiertas</td></tr>
+            <tr><td><span class="smp c-red">Red</span></td><td>Riesgo, brecha, condicionado</td><td>Dotación faltante, hito condicionado</td></tr>
+            <tr><td><span class="smp c-purple">Purple</span></td><td>Categoría secundaria</td><td>Series extra en gráficos y Gantt</td></tr>
+            <tr><td><span class="smp c-teal">Teal</span></td><td>Categoría secundaria</td><td>Series extra, soporte</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 class="ds-sub">Contraste<small>calculado en vivo para el tema activo (WCAG)</small></h3>
+      <div class="demo"><table class="ct" id="contrast"></table></div>
+    </section>
+
+    <!-- TIPOGRAFÍA -->
+    <section class="ds-sec" id="tipografia" data-nav="Tipografía" data-grp="Fundamentos">
+      <p class="eyebrow">Fundamentos</p><h2>Tipografía</h2>
+      <p class="lede">Dos familias: <b>Rajdhani</b> (<code>--display</code>) para títulos y cifras, <b>DM Sans</b> (<code>--body</code>) para todo lo demás. Se cargan desde Google Fonts, con fallback del sistema.</p>
+      <div class="demo" style="margin-top:20px">
+        <div class="spec"><div class="m"><b>Display XL</b>Rajdhani 700 · 128/1.05<br>Portada</div><div style="font-family:var(--display);font-weight:700;font-size:clamp(56px,10vw,128px);line-height:1.05">Retail Core</div></div>
+        <div class="spec"><div class="m"><b>H2</b>Rajdhani 700 · 44/1.05<br>-0.01em</div><div><h2>Un flujo de venta, cuatro plataformas</h2></div></div>
+        <div class="spec"><div class="m"><b>Stat</b>Rajdhani 700 · 76<br>tabular-nums</div><div style="font-family:var(--display);font-weight:700;font-size:76px;line-height:1;color:var(--brand);font-variant-numeric:tabular-nums">161</div></div>
+        <div class="spec"><div class="m"><b>Funnel / Fase</b>Rajdhani 700 · 52 / 48</div><div style="font-family:var(--display);font-weight:700;font-size:52px;line-height:1;color:var(--brand)">38 · 01</div></div>
+        <div class="spec"><div class="m"><b>H3</b>Rajdhani 700 · 22</div><div><h3>Backend cuello de botella</h3></div></div>
+        <div class="spec"><div class="m"><b>Lede</b>DM Sans 400 · 18/1.5<br>text-2 · máx. 62ch</div><div class="lede" style="margin:0">Qué construimos, en qué orden, con qué equipo y qué necesitamos decidir hoy.</div></div>
+        <div class="spec"><div class="m"><b>Cuerpo</b>DM Sans 400 · 15/1.45<br>text-2</div><div style="font-size:15px;color:var(--text-2);line-height:1.45;max-width:62ch">El spike técnico con el equipo dueño de la rama confirma si el release es viable antes de comprometer fecha.</div></div>
+        <div class="spec"><div class="m"><b>Eyebrow</b>DM Sans 700 · 12<br>.16em · mayúsculas · brand</div><div><p class="eyebrow" style="margin:0">A · En números</p></div></div>
+        <div class="spec"><div class="m"><b>Hint / pie</b>DM Sans · 11–12<br>text-3</div><div class="hint">Condicionado: depende de la entrada de los equipos nuevos.</div></div>
+      </div>
+    </section>
+
+    <!-- ESPACIADO, RADIOS, SOMBRAS -->
+    <section class="ds-sec" id="forma" data-nav="Espaciado y forma" data-grp="Fundamentos">
+      <p class="eyebrow">Fundamentos</p><h2>Espaciado, radios y sombras</h2>
+      <p class="lede">Valores recurrentes de la presentación, nombrados como tokens para poder reutilizarlos.</p>
+      <h3 class="ds-sub">Espaciado<small>base 4</small></h3>
+      <div class="demo" id="spacing"></div>
+      <h3 class="ds-sub">Radios</h3>
+      <div class="demo"><div class="row" id="radii" style="gap:24px"></div></div>
+      <h3 class="ds-sub">Sombras y movimiento</h3>
+      <div class="demo">
+        <div class="row" style="gap:28px">
+          <div style="width:160px;height:80px;border-radius:var(--r-xl);background:var(--stage);box-shadow:var(--shadow-stage);display:grid;place-items:center;font-size:12px">--shadow-stage</div>
+          <div style="width:160px;height:80px;border-radius:var(--r-lg);background:var(--surface);border:1px solid var(--line-2);box-shadow:var(--shadow-pop);display:grid;place-items:center;font-size:12px">--shadow-pop</div>
+        </div>
+        <p class="hint" style="margin-top:16px">Transiciones: <code>--t-fast .2s</code> hover y selección · <code>--t-base .35s</code> cambio de slide · <code>--t-slow .8s</code> barras que crecen. Con <code>prefers-reduced-motion</code> todo se desactiva.</p>
+      </div>
+    </section>
+
+    <!-- COMPONENTES -->
+    <section class="ds-sec" id="botones" data-nav="Botones y selectores" data-grp="Componentes">
+      <p class="eyebrow">Componentes</p><h2>Botones y selectores</h2>
+      <p class="lede">Botón pill con dos variantes, y un control segmentado para cambiar de vista. El estado seleccionado usa <code>aria-pressed</code>.</p>
+      <div class="demo" data-code style="margin-top:20px">
+        <div class="row">
+          <button class="btn" type="button">Elegir plan</button>
+          <button class="btn ghost" type="button">Ver detalle</button>
+        </div>
+        <div class="seg" role="group" aria-label="Alcance" data-seg>
+          <button type="button" aria-pressed="false">V0</button>
+          <button type="button" aria-pressed="false">V1</button>
+          <button type="button" aria-pressed="true">V0 + V1</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="ds-sec" id="etiquetas" data-nav="Etiquetas y estados" data-grp="Componentes">
+      <h2>Etiquetas y estados</h2>
+      <p class="lede">Pill neutra para metadatos, <code>.status</code> para el estado de algo, <code>.chip</code> para categorías (combínalo con <code>.c-*</code>).</p>
+      <div class="demo" data-code style="margin-top:20px">
+        <div class="row"><span class="pill">14 oct</span><span class="pill">3 equipos</span></div>
+        <div class="row"><span class="status s-ok">Formalizado</span><span class="status s-cond">Condicionado</span><span class="status s-q2">Q2</span><span class="proy">PROYECTO</span></div>
+        <div class="row"><span class="chip c-green">Nuevo</span><span class="chip c-brand">WOW</span><span class="chip c-yellow">Base</span><span class="chip c-red">Churn</span><span class="chip c-purple">Soporte</span><span class="chip c-teal">Datos</span></div>
+        <div class="row"><div class="avatar">SD</div><div class="ico c-brand" style="margin:0">▲</div><div class="ico c-green" style="margin:0">●</div><div class="ico c-yellow" style="margin:0">◆</div></div>
+      </div>
+    </section>
+
+    <section class="ds-sec" id="cards" data-nav="Cards" data-grp="Componentes">
+      <h2>Cards</h2>
+      <p class="lede">Contenedor base sobre <code>--surface</code> con borde fino. Las variantes añaden un filo de color arriba (<code>.stat</code>, <code>.phase</code>) o a la izquierda (<code>.risk</code>).</p>
+      <h3 class="ds-sub">Card con icono</h3>
+      <div class="demo" data-code>
+        <div class="grid g3">
+          <div class="card"><div class="ico c-green">●</div><h3>Ahora · V0</h3><p>Lo que ya está en desarrollo. Es la base para cobrar y operar la caja.</p></div>
+          <div class="card"><div class="ico c-brand">▲</div><h3>V1</h3><p>Suma diferenciación y reduce el churn.</p></div>
+          <div class="card"><div class="ico c-yellow">◆</div><h3>Después</h3><p>Entran solo si sobra capacidad.</p></div>
+        </div>
+      </div>
+      <h3 class="ds-sub">Stat<small>cifra clave</small></h3>
+      <div class="demo" data-code>
+        <div class="grid g4">
+          <div class="card stat"><div class="v">12</div><div class="k">Capacidades</div><div class="d">La visión para gerencia</div></div>
+          <div class="card stat"><div class="v">4</div><div class="k">Plataformas</div><div class="d">NoPOS · SaaS · POS · EdT</div></div>
+          <div class="card stat yellow"><div class="v">69</div><div class="k">V1</div><div class="d">Complementa la V0</div></div>
+          <div class="card stat red"><div class="v">5</div><div class="k">Meses</div><div class="d">1 oct → 26 feb</div></div>
+        </div>
+      </div>
+      <h3 class="ds-sub">Fase numerada<small>solo para secuencias reales</small></h3>
+      <div class="demo" data-code>
+        <div class="grid g3">
+          <div class="card phase"><div class="n">01</div><h3>NoPOS</h3><p>App Android para equipos de mesón.</p></div>
+          <div class="card phase"><div class="n">02</div><h3>SaaS Web</h3><p>PC o móvil, desde el navegador.</p></div>
+          <div class="card phase"><div class="n">03</div><h3>POS</h3><p>Otra rama y otro hardware.</p></div>
+        </div>
+      </div>
+      <h3 class="ds-sub">Riesgo<small>alto · medio · informativo</small></h3>
+      <div class="demo" data-code>
+        <div class="grid g3">
+          <div class="card risk"><div class="sev">Alto</div><h3>Dotación tardía</h3><p>Front POS entra 2 semanas después y el release pasa a febrero.</p></div>
+          <div class="card risk w"><div class="sev">Medio</div><h3>Otro hardware</h3><p>El spike técnico confirma si el release es viable.</p></div>
+          <div class="card risk i"><div class="sev">Info</div><h3>Soporte en V0</h3><p>Se absorbe con el equipo actual.</p></div>
+        </div>
+      </div>
+      <h3 class="ds-sub">Callout</h3>
+      <div class="demo" data-code>
+        <div class="callout">Mucho alcance, cuatro plataformas y poco tiempo: el plan tiene que priorizar y dimensionar el equipo.</div>
+      </div>
+    </section>
+
+    <section class="ds-sec" id="tablas" data-nav="Tablas" data-grp="Componentes">
+      <h2>Tablas</h2>
+      <p class="lede"><code>.tbl</code> para listas con cabecera de marca. <code>.matrix</code> para cruzar capacidades con plataformas usando puntos y barras de horizonte.</p>
+      <div class="demo" data-code style="margin-top:20px">
+        <table class="tbl">
+          <thead><tr><th>Hito</th><th>Fecha</th><th>Qué sale</th><th>Compromiso</th></tr></thead>
+          <tbody>
+            <tr><td>R1</td><td>14 oct</td><td>V0 NoPOS · caja básica</td><td><span class="status s-ok">Comprometido</span></td></tr>
+            <tr><td>R2</td><td>14 dic</td><td>V0 NoPOS · caja completa</td><td><span class="status s-ok">Comprometido</span></td></tr>
+            <tr><td>R4</td><td>24 feb</td><td>SaaS Web V1</td><td><span class="status s-cond">Condicionado</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="demo" data-code style="margin-top:16px">
+        <table class="matrix">
+          <thead><tr><th>Capacidad</th><th>NoPOS</th><th>POS</th><th>SaaS</th><th>Ahora · V1 · Después</th></tr></thead>
+          <tbody>
+            <tr><td>Punto de venta</td><td><span class="dot"></span></td><td><span class="dot"></span></td><td><span class="dot"></span></td><td><span class="hz"><i class="a"></i><i class="s"></i><i class="d"></i></span></td></tr>
+            <tr><td>Control de caja</td><td><span class="dot"></span></td><td><span class="dot no"></span></td><td><span class="dot"></span></td><td><span class="hz"><i class="a"></i><i class="s"></i><i></i></span></td></tr>
+            <tr><td>Informes y alertas</td><td><span class="dot no"></span></td><td><span class="dot no"></span></td><td><span class="dot"></span></td><td><span class="hz"><i></i><i class="s"></i><i class="d"></i></span></td></tr>
+          </tbody>
+        </table>
+        <div class="legend"><span><i style="background:var(--green)"></i>Ahora</span><span><i style="background:var(--brand-2)"></i>V1</span><span><i style="background:var(--yellow)"></i>Después</span></div>
+      </div>
+    </section>
+
+    <section class="ds-sec" id="graficos" data-nav="Gráficos simples" data-grp="Componentes">
+      <h2>Gráficos simples</h2>
+      <p class="lede">Barras horizontales, barra de horizontes con <code>flex-grow</code> proporcional y barras de dotación (cuadro lleno = persona, borde rojo punteado = brecha).</p>
+      <h3 class="ds-sub">Barras</h3>
+      <div class="demo" data-code>
+        <div class="bars">
+          <div class="brow"><span>Punto de venta</span><div class="track"><div class="fill" style="width:88%"></div></div><b>30</b></div>
+          <div class="brow"><span>Catálogo</span><div class="track"><div class="fill" style="width:62%"></div></div><b>21</b></div>
+          <div class="brow"><span>Inventario</span><div class="track"><div class="fill" style="width:41%"></div></div><b>14</b></div>
+        </div>
+      </div>
+      <h3 class="ds-sub">Barra de horizontes</h3>
+      <div class="demo" data-code>
+        <div class="hbar">
+          <div style="background:var(--green);flex-grow:57">57</div>
+          <div style="background:var(--brand-2);flex-grow:69">69</div>
+          <div style="background:var(--yellow);flex-grow:35">35</div>
+        </div>
+        <div class="legend"><span><i style="background:var(--green)"></i>Ahora</span><span><i style="background:var(--brand-2)"></i>V1</span><span><i style="background:var(--yellow)"></i>Después</span></div>
+      </div>
+      <h3 class="ds-sub">Dotación</h3>
+      <div class="demo" data-code>
+        <div class="staff">
+          <div class="srow"><span class="name">Backend</span><div class="sbar"><i></i><i></i><i class="gap"></i></div><span class="delta">-1</span></div>
+          <div class="srow"><span class="name">Front Web</span><div class="sbar"><i></i><i></i><i></i></div><span class="delta zero">0</span></div>
+          <div class="srow"><span class="name">Front POS</span><div class="sbar"><i></i><i class="gap"></i><i class="gap"></i></div><span class="delta">-2</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ds-sec" id="gantt" data-nav="Gantt" data-grp="Componentes">
+      <h2>Gantt</h2>
+      <p class="lede">Carriles con barras posicionadas en porcentaje. Los hitos usan una línea punteada; en rojo si son condicionados. La franja rayada marca baja capacidad.</p>
+      <div class="demo" data-code style="margin-top:20px;padding-bottom:48px">
+        <div class="gantt">
+          <div class="months"><span style="left:0%">Oct</span><span style="left:20%">Nov</span><span style="left:40%">Dic</span><span style="left:60%">Ene</span><span style="left:80%">Feb</span></div>
+          <div class="lane-label">Backend V0<small>Equipo actual</small></div>
+          <div class="lane"><div class="bar" style="left:0%;width:38%;background:var(--brand)">Ola 3 · caja completa</div><div class="bar" style="left:40%;width:42%;background:var(--brand-2)">Ola 4 · retiro de efectivo</div><div class="lowcap" style="left:44%;width:10%"></div></div>
+          <div class="lane-label">Front Web<small>Entra 4-nov</small></div>
+          <div class="lane"><div class="bar sig" style="left:22%;width:56%;background:var(--teal)">Espacio de trabajo</div></div>
+          <div class="lane-label">Front POS<small>Entra 11-nov</small></div>
+          <div class="lane"><div class="bar" style="left:30%;width:50%;background:var(--purple)">Rediseño POS</div><div class="ms cond" style="left:92%"><b>R4</b></div><div class="ms" style="left:14%"><b>R1</b></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ds-sec" id="interactivos" data-nav="Interactivos" data-grp="Componentes">
+      <h2>Interactivos</h2>
+      <p class="lede">Selector de niveles (funnel) con texto explicativo, y filas de drill-down que se revelan de a una. El JS de esta página muestra el patrón.</p>
+      <h3 class="ds-sub">Funnel</h3>
+      <div class="demo" data-code>
+        <div class="funnel" data-funnel>
+          <button class="fstep sel" type="button" data-x="Capacidades: qué mejora el negocio y por qué. Es lo que ve la gerencia."><div class="v">12</div><div class="k">Capacidades</div></button><span class="arrow">→</span>
+          <button class="fstep" type="button" data-x="Funcionalidades: qué construimos en cada plataforma. Es el roadmap táctico."><div class="v">38</div><div class="k">Funcionalidades</div></button><span class="arrow">→</span>
+          <button class="fstep" type="button" data-x="Subfuncionalidades: qué puede hacer el usuario, con plataformas y objetivo."><div class="v">161</div><div class="k">Subfuncionalidades</div></button>
+        </div>
+        <div class="fexplain" data-fexplain>Capacidades: qué mejora el negocio y por qué. Es lo que ve la gerencia.</div>
+      </div>
+      <h3 class="ds-sub">Drill-down</h3>
+      <div class="demo" data-code>
+        <div class="drill" data-drill>
+          <div class="drow show"><div class="lv">Capacidad</div><div class="tx">Promociones y descuentos · base competitiva.</div></div>
+          <div class="drow"><div class="lv">Funcionalidad</div><div class="tx">Motor de promociones con reglas automáticas y cupones.</div></div>
+          <div class="drow"><div class="lv">Subfuncionalidad</div><div class="tx">Aplicar el descuento por volumen sin acción del operador.</div></div>
+        </div>
+        <div class="row"><button class="btn ghost" type="button" data-drill-btn>Mostrar siguiente nivel</button></div>
+      </div>
+      <h3 class="ds-sub">Lista de pedidos</h3>
+      <div class="demo" data-code>
+        <div class="ask"><div class="n">01</div><div><h3>Elegir el plan</h3><p>A balanceado, B V1 NoPOS o C multiplataforma.</p></div></div>
+        <div class="ask"><div class="n">02</div><div><h3>Aprobar la dotación</h3><p>+8 en desarrollo antes del 28-oct.</p></div></div>
+      </div>
+    </section>
+
+    <!-- LAYOUT -->
+    <section class="ds-sec" id="slides" data-nav="Layout de slides" data-grp="Plantillas">
+      <p class="eyebrow">Plantillas</p><h2>Layout de slides</h2>
+      <p class="lede">Escenario fijo de 1280×720 que se escala al tamaño de la ventana. Riel lateral de 56px con marca y navegación, contenido con padding <code>56 72 64 104</code> y pie con sección. Una slide es visible cuando lleva <code>.on</code>.</p>
+      <div class="stagewrap" id="miniWrap" style="margin-top:20px">
+        <div class="stage" id="miniStage">
+          <div class="rail"><span class="mark">Haulmer · Retail Core</span><nav><button type="button" aria-current="true">A</button><button type="button">B</button><button type="button">C</button></nav><span class="num">02</span></div>
+          <section class="slide on">
+            <p class="eyebrow">A · En números</p><h2>El tamaño del desafío</h2>
+            <div class="body">
+              <div class="grid g4">
+                <div class="card stat"><div class="v">12</div><div class="k">Capacidades</div><div class="d">La visión para gerencia</div></div>
+                <div class="card stat"><div class="v">4</div><div class="k">Plataformas</div><div class="d">NoPOS · SaaS · POS · EdT</div></div>
+                <div class="card stat"><div class="v">161</div><div class="k">Subfuncionalidades</div><div class="d">57 Ahora · 69 V1 · 35 Después</div></div>
+                <div class="card stat red"><div class="v">5</div><div class="k">Meses</div><div class="d">1 oct → 26 feb</div></div>
+              </div>
+              <div class="callout">Mucho alcance, cuatro plataformas y poco tiempo.</div>
+            </div>
+            <div class="foot"><span>Retail Core</span><span>Insumos</span></div>
+          </section>
+        </div>
+      </div>
+      <h3 class="ds-sub">Esqueleto mínimo</h3>
+      <div class="demo pad0" style="border:0;background:transparent">
+        <div class="codebar"><button type="button" data-copy-pre="skeleton">Copiar</button></div>
+        <pre class="code" id="skeleton">&lt;div class="stage" id="stage"&gt;
+  &lt;div class="rail"&gt;
+    &lt;span class="mark"&gt;Empresa · Proyecto&lt;/span&gt;
+    &lt;nav id="railNav"&gt;&lt;/nav&gt;
+    &lt;span class="num" id="railNum"&gt;01&lt;/span&gt;
+  &lt;/div&gt;
+
+  &lt;section class="slide cover on"&gt;
+    &lt;p class="eyebrow"&gt;Contexto · Periodo&lt;/p&gt;
+    &lt;h1&gt;Título&lt;/h1&gt;
+    &lt;p class="kicker"&gt;Subtítulo&lt;/p&gt;
+  &lt;/section&gt;
+
+  &lt;section class="slide"&gt;
+    &lt;p class="eyebrow"&gt;A · Sección&lt;/p&gt;&lt;h2&gt;Título de la slide&lt;/h2&gt;
+    &lt;div class="body"&gt;...componentes...&lt;/div&gt;
+    &lt;div class="foot"&gt;&lt;span&gt;Proyecto&lt;/span&gt;&lt;span&gt;Sección&lt;/span&gt;&lt;/div&gt;
+  &lt;/section&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+  // Escala el escenario a la ventana
+  const stage = document.getElementById('stage');
+  const fit = () =&gt; stage.style.transform =
+    `scale(${Math.min((innerWidth-32)/1280, (innerHeight-120)/720)})`;
+  addEventListener('resize', fit); fit();
+&lt;/script&gt;</pre>
+      </div>
+    </section>
+
+    <!-- REGLAS -->
+    <section class="ds-sec" id="reglas" data-nav="Reglas de uso" data-grp="Guía">
+      <p class="eyebrow">Guía</p><h2>Reglas de uso</h2>
+      <div class="rules" style="margin-top:20px">
+        <div class="card"><h3>Haz</h3><ul>
+          <li>Usa siempre variables (<code>var(--brand)</code>), nunca hex sueltos: así funciona el tema oscuro.</li>
+          <li>Acompaña el color con texto o forma; un estado no debe depender solo del tono.</li>
+          <li>Usa <code>.stat</code> para una cifra por idea, con etiqueta corta y una línea de contexto.</li>
+          <li>Mantén visible el foco: los controles usan <code>outline: 3px solid var(--brand-2)</code>.</li>
+          <li>Reserva los números de fase (01, 02…) para secuencias reales.</li>
+        </ul></div>
+        <div class="card"><h3>Evita</h3><ul>
+          <li>Más de un color de acento por pantalla fuera de los semánticos.</li>
+          <li>Texto blanco fijo sobre colores sólidos: usa <code>--on-solid</code> o <code>--on-brand</code>, que se adaptan al modo oscuro.</li>
+          <li>Cards anidadas dentro de cards.</li>
+          <li>Sombras en componentes; solo el escenario y los popovers las llevan.</li>
+          <li>Animaciones decorativas: el movimiento responde a una acción o revela contenido.</li>
+        </ul></div>
+      </div>
+      <h3 class="ds-sub">Cómo empezar un proyecto</h3>
+      <div class="demo pad0" style="border:0;background:transparent">
+        <div class="codebar"><button type="button" data-copy-pre="starter">Copiar</button></div>
+        <pre class="code" id="starter">&lt;link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&amp;family=Rajdhani:wght@500;600;700&amp;display=swap"&gt;
+&lt;style&gt;
+  /* 1. pega aquí el bloque "Tokens"      */
+  /* 2. pega aquí el bloque "Componentes" */
+  /* 3. (opcional) "Layout de slides"     */
+&lt;/style&gt;
+
+&lt;!-- Cambiar de tema manualmente: --&gt;
+&lt;script&gt;
+  document.documentElement.dataset.theme = 'dark'; // 'light' | 'dark' | (omitir = auto)
+&lt;/script&gt;</pre>
+      </div>
+    </section>
+
+    <h3 class="ds-sub" style="margin-top:72px">Código fuente completo<small>tokens + componentes + layout</small></h3>
+    <div class="demo pad0" style="border:0;background:transparent">
+      <div class="codebar"><button type="button" data-copy="ds-tokens">Copiar tokens</button><button type="button" data-copy="ds-components">Copiar componentes</button><button type="button" data-copy="ds-layout">Copiar layout</button></div>
+    </div>
+  </main>
+</div>
+
+<script>
+(function(){
+  const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+  const root=document.documentElement;
+  const cssVar=n=>getComputedStyle(root).getPropertyValue('--'+n).trim();
+  const toHex=c=>{const m=c.match(/\d+(\.\d+)?/g);if(!m)return c;return '#'+m.slice(0,3).map(x=>Math.round(+x).toString(16).padStart(2,'0')).join('');};
+  const resolve=n=>{const t=document.createElement('i');t.style.color='var(--'+n+')';document.body.appendChild(t);const c=getComputedStyle(t).color;t.remove();return toHex(c);};
+  const lum=h=>{const v=[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)/255).map(c=>c<=.03928?c/12.92:Math.pow((c+.055)/1.055,2.4));return .2126*v[0]+.7152*v[1]+.0722*v[2];};
+  const ratio=(a,b)=>{const x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05);};
+
+  /* ---------- nav ---------- */
+  const secs=$$('.ds-sec[data-nav]'), nav=$('#nav');
+  let lastGrp='';
+  nav.innerHTML='<a href="#inicio">Inicio</a>'+secs.map(s=>{
+    const g=s.dataset.grp;let h='';if(g!==lastGrp){h='<div class="grp">'+g+'</div>';lastGrp=g;}
+    return h+'<a href="#'+s.id+'">'+s.dataset.nav+'</a>';}).join('');
+  const links=$$('a',nav);
+  const spy=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){links.forEach(a=>a.removeAttribute('aria-current'));const a=$('a[href="#'+e.target.id+'"]',nav);if(a)a.setAttribute('aria-current','true');}});},{rootMargin:'-20% 0px -70% 0px'});
+  [$('#inicio'),...secs].forEach(s=>spy.observe(s));
+
+  /* ---------- tema ---------- */
+  const btn=$('#themeBtn'),modes=['auto','light','dark'];let mode=0;
+  btn.onclick=()=>{mode=(mode+1)%3;if(modes[mode]==='auto')root.removeAttribute('data-theme');else root.dataset.theme=modes[mode];btn.textContent='Tema: '+({auto:'auto',light:'claro',dark:'oscuro'})[modes[mode]];setTimeout(refresh,30);};
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>setTimeout(refresh,30));
+
+  /* ---------- swatches ---------- */
+  const sw=(n)=>'<div class="sw"><div class="c" style="background:var(--'+n+')"></div><div class="i"><b>--'+n+'</b><code data-hex="'+n+'"></code></div></div>';
+  $$('[data-sw]').forEach(g=>g.innerHTML=g.dataset.sw.split(',').map(sw).join(''));
+  $$('[data-pair]').forEach(g=>g.innerHTML=g.dataset.pair.split(',').map(n=>'<div class="sw"><div class="pair"><div class="c" style="background:var(--'+n+')"></div><div class="c" style="background:var(--'+n+'-soft)"></div></div><div class="i"><b>--'+n+'</b><code data-hex="'+n+'"></code><br><b style="margin-top:4px">--'+n+'-soft</b><code data-hex="'+n+'-soft"></code></div></div>').join(''));
+
+  /* ---------- espaciado y radios ---------- */
+  $('#spacing').innerHTML=['sp-1','sp-2','sp-3','sp-4','sp-5','sp-6','sp-7','sp-8'].map(n=>'<div class="tokrow"><code>--'+n+'</code><div style="display:flex;align-items:center;gap:12px"><div class="box" style="width:var(--'+n+')"></div><span class="hint" data-val="'+n+'"></span></div></div>').join('');
+  $('#radii').innerHTML=['r-xs','r-sm','r-md','r-lg','r-xl','r-pill'].map(n=>'<div style="text-align:center;font-size:12px"><div style="width:84px;height:56px;background:var(--brand-soft);border:2px solid var(--brand);border-radius:var(--'+n+');margin:0 auto 6px"></div><code>--'+n+'</code><div class="hint" data-val="'+n+'"></div></div>').join('');
+
+  /* ---------- contraste ---------- */
+  const pairs=[['text','stage','Texto principal'],['text-2','stage','Texto secundario'],['text-3','stage','Texto terciario / hint'],['on-brand','brand','Texto sobre marca'],['brand','stage','Marca sobre fondo'],['green','green-soft','Status OK'],['yellow','yellow-soft','Status pendiente'],['red','red-soft','Status riesgo'],['on-solid','green','Barra verde'],['on-solid','brand-2','Barra V1'],['on-solid','yellow','Barra amarilla']];
+  function refresh(){
+    $$('[data-hex]').forEach(e=>e.textContent=resolve(e.dataset.hex));
+    $$('[data-val]').forEach(e=>e.textContent=cssVar(e.dataset.val));
+    $('#contrast').innerHTML='<thead><tr><th>Par</th><th>Muestra</th><th>Ratio</th><th>Nivel</th></tr></thead><tbody>'+pairs.map(([f,b,l])=>{
+      const r=ratio(resolve(f),resolve(b));
+      const lv=r>=7?['AAA','ok']:r>=4.5?['AA','ok']:r>=3?['Solo texto grande','warn']:['No cumple','bad'];
+      return '<tr><td>'+l+'<div class="hint">--'+f+' sobre --'+b+'</div></td><td><span class="smp" style="color:var(--'+f+');background:var(--'+b+');border:1px solid var(--line)">Aa 123</span></td><td>'+r.toFixed(2)+':1</td><td class="'+lv[1]+'">'+lv[0]+'</td></tr>';}).join('')+'</tbody>';
+  }
+  document.fonts&&document.fonts.ready.then(()=>{});
+  refresh();
+  new MutationObserver(()=>refresh()).observe(root,{attributes:true,attributeFilter:['data-theme']});
+
+  /* ---------- código por componente ---------- */
+  const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const clean=h=>{
+    h=h.replace(/\saria-pressed="(true|false)"/g,m=>m).replace(/\sdata-[a-z-]+(="[^"]*")?/g,(m)=>/data-x=/.test(m)?m:'');
+    const lines=h.replace(/^\n+|\s+$/g,'').split('\n');
+    const ind=Math.min(...lines.filter(l=>l.trim()).map(l=>l.match(/^\s*/)[0].length));
+    return lines.map(l=>l.slice(ind)).join('\n');
+  };
+  $$('.demo[data-code]').forEach(d=>{
+    const raw=d.innerHTML;
+    const bar=document.createElement('div');bar.className='codebar';
+    const b1=document.createElement('button');b1.type='button';b1.textContent='Ver código';
+    const b2=document.createElement('button');b2.type='button';b2.textContent='Copiar HTML';
+    bar.append(b1,b2);
+    const pre=document.createElement('pre');pre.className='code';pre.hidden=true;
+    const code=clean(raw);pre.textContent=code;
+    d.after(bar,pre);
+    b1.onclick=()=>{pre.hidden=!pre.hidden;b1.textContent=pre.hidden?'Ver código':'Ocultar código';};
+    b2.onclick=()=>copy(code,b2,'Copiar HTML');
+  });
+
+  /* ---------- copiar ---------- */
+  function copy(text,el,label){
+    const done=()=>{el.textContent='¡Copiado!';setTimeout(()=>el.textContent=label,1400);};
+    if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(text).then(done,fallback);else fallback();
+    function fallback(){const t=document.createElement('textarea');t.value=text;t.style.position='fixed';t.style.opacity='0';document.body.appendChild(t);t.select();try{document.execCommand('copy');done();}catch(e){el.textContent='Selecciona y copia';}t.remove();}
+  }
+  const cssText=id=>'<style>'+document.getElementById(id).textContent+'</style>';
+  $$('[data-copy]').forEach(b=>{const l=b.textContent;b.onclick=()=>copy(document.getElementById(b.dataset.copy).textContent.trim(),b,l);});
+  $$('[data-copy-pre]').forEach(b=>{const l=b.textContent;b.onclick=()=>copy(document.getElementById(b.dataset.copyPre).textContent,b,l);});
+
+  /* ---------- demos interactivos ---------- */
+  $$('[data-seg]').forEach(s=>s.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;$$('button',s).forEach(x=>x.setAttribute('aria-pressed',x===b));}));
+  $$('[data-funnel]').forEach(f=>{const ex=f.parentElement.querySelector('[data-fexplain]');f.addEventListener('click',e=>{const b=e.target.closest('.fstep');if(!b)return;$$('.fstep',f).forEach(x=>x.classList.toggle('sel',x===b));ex.textContent=b.dataset.x;});});
+  $$('[data-drill]').forEach(d=>{const btn=d.parentElement.querySelector('[data-drill-btn]');btn.onclick=()=>{const rows=$$('.drow',d),n=rows.findIndex(r=>!r.classList.contains('show'));if(n<0){rows.forEach((r,i)=>r.classList.toggle('show',i===0));btn.textContent='Mostrar siguiente nivel';}else{rows[n].classList.add('show');if(n===rows.length-1)btn.textContent='Reiniciar';}};});
+
+  /* ---------- mini stage escalado ---------- */
+  const wrap=$('#miniWrap'),st=$('#miniStage');
+  const fit=()=>{const k=wrap.clientWidth/1280;st.style.transform='scale('+k+')';wrap.style.height=(720*k)+'px';};
+  new ResizeObserver(fit).observe(wrap);fit();
+})();
+</script>
+</body>
+</html>
